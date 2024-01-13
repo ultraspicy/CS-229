@@ -1,0 +1,19 @@
+\item \subquestionpoints{5} {\bf Overfitting with expressive models and small data}
+
+For the rest of the problem, we will consider a small
+dataset (a random subset of the dataset you have been using so far) with much fewer examples, provided in
+the following file:
+%
+\begin{center}
+	\url{src/featuremaps/small.csv}
+\end{center}
+%
+
+We will be exploring what happens when the number of features start becoming bigger than the number of 
+examples in the training set. Run your algorithm on this small dataset using the following feature map 
+\begin{align}
+\phi(x) = \left[\begin{array}{c} 1\\ x \\ x^2\\ \vdots \\x^k \end{array}\right]\in \mathbb{R}^{k+1} 
+\end{align}
+with $k = 1,2,5,10,20$. 
+
+Create a plot of the various hypothesis curves (just like previous sub-questions). Observe how the fitting of the training dataset changes as $k$ increases. Submit the plot in the writeup and comment on what you observe.
