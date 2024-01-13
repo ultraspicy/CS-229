@@ -37,19 +37,27 @@
     Let $f(x) = \half x^T A x + b^T x$, where $A$ is a symmetric matrix and
     $b \in \R^n$ is a vector. What is $\nabla f(x)$?
 
+    answer: $\nabla f(x) = A x + b$
+
   \item \label{item:chain-rule}
     Let $f(x) = g(h(x))$, where $g : \R \to \R$ is
     differentiable and $h : \R^n \to \R$ is differentiable.
     What is $\nabla f(x)$?
 
+    answer: $\nabla f(x) = g'(h(x)) \cdot \nabla h(x)$, $g'(h(x))$ is the derivative of $g$ w.r.t. its argument, and $\nabla h(x)$ is gradient of $h(x)$
+
   \item Let $f(x) = \half x^T A x + b^T x$, where
     $A$ is symmetric and $b \in \R^n$ is a vector. What is
     $\nabla^2 f(x)$?
+
+    answer: $\nabla^2 f(x) = A$
 
   \item Let $f(x) = g(a^T x)$, where $g : \R \to \R$ is continuously
     differentiable and $a \in \R^n$ is a vector.
     What are $\nabla f(x)$ and $\nabla^2 f(x)$?
     (\emph{Hint:} your expression for $\nabla^2 f(x)$ may have as few as
     $11$ symbols, including $'$ and parentheses.)
+
+    answer: $\nabla^2 f(x) = g''(a^T x) \cdot aa^T$
 
   \end{enumerate}

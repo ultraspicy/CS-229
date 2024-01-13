@@ -17,15 +17,49 @@
   \item Let $z \in \R^n$ be an $n$-vector.
     Show that $A = zz^T$ is positive semidefinite.
 
+    step1: prove  $A = A^T$
+
+    $A^T = (zz^T)^T = (z^T)^T z^T = z z^T = A$
+
+    step2: prove $x^T A x \ge 0$ for all $x \in \R^n$
+    
+    $x^T A x = x^T z z^T x = (x^T z) (z^T x) = (z^T x) ^ 2 \ge 0$
+
+    Given 1 and 2, $A = z z^T$ is \emph{positive semi-definite}
+
   \item Let $z \in \R^n$ be a \emph{non-zero} $n$-vector.
     Let $A = zz^T$. What is the null-space of $A$?
     What is the rank of $A$?
 
+    $0 = A x = z z^T x$, $z^T x$ is a scalar, let $C = z^T x$, then $Cz = 0$
+
+    Given $z \in \R^n$ be a \emph{non-zero} $n$-vector, then $C = 0$ 
+
+    So the null-space of A is all vectors $x$ that are orthogonal to $z$
+
+    let $z = \left[\begin{matrix} z_1 \\ z_2 \vdots \\ z_n \end{matrix}\right]$
+    
+    $A = z z^T = \left[\begin{matrix}
+        z_1 z & z_2 z \cdots & z_n z \end{matrix} \right]$
+
+    so all columns of $A$ are linearly dependent, $Rank(A) \le 1$. Meanwhile, $z \in \R^n$ be a \emph{non-zero} $n$-vector, meaning $Rank(A) \ge 1$.
+
+    So $Rank(A) = 1$.
 
   \item Let $A \in \R^{n \times n}$ be positive semidefinite and
     $B \in \R^{m \times n}$ be arbitrary, where $m, n \in \mathbb{N}$. Is
     $BAB^T$ PSD?  If so, prove it.  If not, give a counterexample with
     explicit $A, B$.
+
+    $(B A B ^T) ^ T = ((BA)B^T)^T = B(BA)^T = B A^T B^T$
+
+    Given $A \in \R^{n \times n}$ be positive semidefinite, $B A^T B^T = B A B^T$
+
+    $x^T B A B ^T x = (B^T x) ^T A B^T x$, let $B^T x = y \in \R^{n \times 1}$ 
+
+    then $x^T B A B ^T x = y^T A y \ge 0$ 
+
+    So $BAB^T$ is PSD
 
   \end{enumerate}
 
@@ -63,6 +97,16 @@
     that $A t^{(i)} = \lambda_i t^{(i)}$, so that
     the eigenvalues/eigenvector pairs of $A$ are $(t^{(i)}, \lambda_i)$.
 
+    Given $A = T \Lambda T ^ {-1}$, 
+    
+    Then $ A T = T \Lambda = [t^{(1)} ~ \cdots ~ t^{(n)}] \diag(\lambda_1, \ldots, \lambda_n) = [\lambda_1 t^{(1)} ~ \cdots ~ \lambda_n t^{(n)}] $
+    
+    Meanwhile, $ A T = A [t^{(1)} ~ \cdots ~ t^{(n)}] = [A t^{(1)} ~ \cdots ~ A t^{(n)}]$
+
+    So $[A t^{(1)} ~ \cdots ~ A t^{(n)}] = [\lambda_1 t^{(1)} ~ \cdots ~ \lambda_n t^{(n)}]$
+
+    aka $A t^{(i)} = \lambda_i t^{(i)}$,
+
   \end{enumerate}
 
   A matrix $U \in \R^{n \times n}$ is orthogonal if $U^T U = I$.
@@ -86,7 +130,20 @@
     $A u^{(i)} = \lambda_i u^{(i)}$, where
     $\Lambda = \diag(\lambda_1, \ldots, \lambda_n)$.
 
+    Given $U^T U = I$ and $A = U \Lambda U^T$, 
+
+    Similar with (a), $[A u^{(1)} ~ \cdots ~ A u^{(n)}] = A U = U \Lambda U^T U = U \Lambda = [\lambda_1 u^{(1)} ~ \cdots ~ \lambda_n u^{(n)}]$
+
+    aka $A u^{(i)} = \lambda_i u^{(i)}$,
   \item Show that if $A$ is PSD, then $\lambda_i(A) \ge 0$ for each $i$.
+
+  Given $x^T A x \ge 0$,
+
+  Let $x$ be the eigenvector of $A$,
+
+  Then $x^T A x = x ^T \lambda x = \lambda x ^T x \ge 0$
+
+  Given $x ^ T x \ge 0$, then $\lambda \ge 0$ 
 
   \end{enumerate}
   

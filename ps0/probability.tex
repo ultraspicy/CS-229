@@ -11,8 +11,22 @@
   What is the mean and variance?
   Is this a well known distribution, and if so, which?
 
+  The mean of a sum of random variables is the sum of their means. 
+  
+  Let $\mu = [\mu_1, \cdots, \mu_n]$
+
+  Then $Mean(Y) = Mean(X_1 + \cdots + X_n) = Mean(X_1) + \cdots + Mean(X_n) = \mu_1 + \cdots + \mu_n$
+
+  The variance of a sum of random variables is the sum of their covariances.
+
+  then $Covariance(Y) = \Sigma^n_{i=1}\Sigma^n_{j=1} \sigma_{ij}$
+
+  Y is another Gaussian distribution
+
   \item
   Now, further suppose that $\Sigma$ is invertible. Find $\mathbb{E}[X^T\Sigma^{-1}X]$.
   (Hint: use the property of trace that $x^TAx = \text{tr}(x^TAx)$).
+
+  $\mathbb{E}[X^T\Sigma^{-1}X] =  \mathbb{E}[\text{tr}(X^T\Sigma^{-1}X)] = \mathbb{E}[\text{tr}(\Sigma^{-1}X X^T)] = tr(\Sigma^{-1}\mathbb{E}[X^T X]) = tr(\Sigma^{-1}(\Sigma + \mu\mu^T)) = tr(I) + tr(\Sigma^{-1}\mu\mu^T) = n + \mu^T\Sigma^{-1}\mu$
 
   \end{enumerate}
