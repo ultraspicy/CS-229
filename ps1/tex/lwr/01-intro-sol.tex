@@ -1,2 +1,108 @@
 \begin{answer}
+
+(i) Suppose we have $d$ features, then use the notation as follows
+\begin{equation*}
+    X = \left[\begin{matrix}
+       x^{(1)} \\ x^{(2)} \\ \cdots \\ x^{(n)}
+      \end{matrix}
+    \right]
+  \end{equation*}
+
+where $x^{(i)}$ is a row vector having d elements. And 
+\begin{equation*}
+\theta = \left[\begin{matrix}
+       \theta_1 \\
+       \theta_2 \\
+       \vdots \\
+       \theta_n
+      \end{matrix}
+    \right]
+\end{equation*}
+
+and 
+\begin{equation*}
+y = \left[\begin{matrix}
+       y^{(1)} \\
+       y^{(2)} \\
+       \vdots \\
+       y^{(n)}
+      \end{matrix}
+    \right]
+\end{equation*}
+
+then $X\theta - y$ can be written as 
+
+\begin{equation*}
+X\theta - y = \left[\begin{matrix}
+       x^{(1)}\theta - y^{(1)} \\
+       x^{(2)}\theta - y^{(2)} \\
+       \vdots \\
+       x^{(n)}\theta - y^{(n)}
+      \end{matrix}
+    \right]
+\end{equation*}
+
+Suppose $W$ is a diagonal matrix
+
+\begin{equation*}
+W = diag\left[ w_{11}, w_{22}, ..., w_{nn} \right]
+\end{equation*}
+
+Let the $x^{(i)}$ as the row vector, so $x^{(i)}\theta$ is a scalar and equal to $\theta^\top x^{(i)}$ in problem statement
+\begin{equation*}
+    (X\theta - y)^\top W (X\theta - y) = \sum_{i=1}^\nexp w_{ii}\left(x^{(i)}\theta - y^{(i)}\right)^2 = \frac{1}{2} \sum_{i=1}^\nexp w^{(i)}
+		\left(\theta^Tx^{(i)} - y^{(i)}\right)^2.
+\end{equation*}
+
+Then 
+\begin{equation*}
+    W = diag(w_{11}, w_{22}, ..., w_{nn}), w_{ii} = \frac{1}{2} w^{(i)}
+\end{equation*}
+
+(ii)
+
+From (i), 
+\begin{equation*}
+    J(\theta) = (X\theta - {y})^T W (X\theta - {y})
+\end{equation*}
+
+Then 
+\begin{equation*}
+    \nabla J(\theta) = 2 X ^ \top W X \theta - 2 X^\top W y
+\end{equation*}
+
+Let $\nabla J(\theta) = 0$, we can get
+\begin{equation*}
+    \theta = (X ^ \top W X)^{-1} X^\top W y
+\end{equation*}
+
+(iii)
+
+Given examples are independent and conditional distribution
+\begin{equation*}
+    p(y^{(i)} | x^{(i)} ; \theta) = \frac{1}{\sqrt{2\pi}\sigma^{(i)}} \exp\left(-
+    \frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2(\sigma^{(i)})^2}\right)
+\end{equation*}
+
+apply $ln()$ to both sides,
+\begin{equation*}
+    ln \left(p(y | x ; \theta) \right) = - ln\left( \prod_{i=1}^\nexp \frac{1}{\sqrt{2\pi}\sigma^{(i)}} \right) \left( \sum_{i=1}^\nexp \frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2(\sigma^{(i)})^2} \right)
+\end{equation*}
+
+To maximize $ln \left(p(y | x ; \theta) \right)$ is equivalent to minimize 
+\begin{equation*}
+\left( \sum_{i=1}^\nexp \frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2(\sigma^{(i)})^2} \right)
+\end{equation*}
+
+which reduces to solving a weighted linear regression problem. Given 
+\begin{equation*}
+\left( \sum_{i=1}^\nexp \frac{(y^{(i)} - \theta^Tx^{(i)})^2}{2(\sigma^{(i)})^2} \right) = \frac{1}{2} \sum_{i=1}^\nexp w^{(i)}
+		\left(\theta^Tx^{(i)} - y^{(i)}\right)^2.
+\end{equation*}
+
+we can get 
+\begin{equation*}
+w^{(i)} = \frac{1}{{(\sigma^{(i)})^2}}
+\end{equation*}
 \end{answer}
+

@@ -1,2 +1,14 @@
 \begin{answer}
+
+Given
+\begin{equation*}
+	J(\theta) = \frac{1}{2}||X\theta - y||_2^2
+\end{equation*}
+
+so 
+\begin{equation*}
+	\nabla^2J(\theta) = X^\top X, with \beta_max be the largest eigenvalue 
+\end{equation*}
+
+By (d), choosing a step size $0 < \alpha < \frac{1}{\beta_{\max}}$ guarantees that $J(\theta^{[t]})$ will converge to some finite value as $t$ approaches infinity.
 \end{answer}

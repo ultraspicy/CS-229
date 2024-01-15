@@ -1,2 +1,42 @@
 \begin{answer}
+
+Given $J(\theta) = \frac{1}{2}\beta\theta^2$, then $\nabla J(\theta) = \beta \theta$
+
+then $\theta^{[t]} = \theta^{[t-1]} - \alpha\nabla J(\theta^{[t-1]}) = \theta^{[t-1]} - \alpha \beta \theta^{[t-1]} = (1 - \alpha \beta)\theta^{[t-1]} = (1 - \alpha \beta) ^ 2 \theta^{[t-2]} = \cdots = (1 - \alpha \beta) ^ t \theta ^{[0]}$
+
+To make GD converges, $|1 - \alpha \beta| < 1$. Given $\beta > 0$,  we can derive the range of $\alpha$
+\begin{equation*}
+	0 < \alpha < \frac{2}{\beta}
+\end{equation*}
+
+When GD converges, given $|1 - \alpha \beta| < 1$, we have 
+
+\begin{equation*}
+	\theta^\dagger = \lim_{t\to\infty} (1 - \alpha \beta) ^ t \theta ^{[0]} = 0
+\end{equation*}
+
+Meanwhile, the global minimum $\theta^*$ satisfies $\nabla J(\theta^*) = \beta \theta^* = 0$
+
+So 
+
+\begin{equation*}
+	\theta^* = \theta ^ \dagger = 0
+\end{equation*}
+
+Given $\theta^{[t]} = (1 - \alpha \beta) ^ t \theta ^{[0]}$ and $\theta ^* = 0$, $|\theta^{[T]} - \theta^*| \le \epsilon$ is equivalent to
+
+\begin{equation*}
+	 (1 - \alpha \beta) ^ T \le \frac{\epsilon}{|\theta ^{[0]}|}
+\end{equation*}
+
+then $T*log(1- \alpha\beta) \le log(\frac{\epsilon}{|\theta ^{[0]}|})$ 
+
+\begin{equation*}
+	 T \ge \frac{log(\frac{\epsilon}{|\theta ^{[0]}|})}{log(1- \alpha\beta)} 
+\end{equation*}
+
+When $\alpha$ increases, $|log(1- \alpha\beta)|$ increases and T decreases. 
+When $\alpha$ is too small, $log(1 - \alpha\beta)$ gets closer to 0, casuing the algo take longer to converge.
+Meanwhile if $\alpha$ is too significant, changes in each iteration remains significant. This can prevent the algorithm from settling into a stable value.
+
 \end{answer}

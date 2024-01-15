@@ -1,2 +1,55 @@
 \begin{answer}
+
+Let  $y = \theta^{[t]}$ and $x = \theta^{[t - 1]}$, and $\theta^{[t]} - \theta^{[t-1]} =  - \alpha\nabla J(\theta^{[t-1]})$ the following equation
+
+\begin{equation*}
+	J(y) = J(x) + \nabla J(x)^\top (y-x) + \frac{1}{2}(y-x)^\top \nabla^2 J(x + c(y-x)) (y-x) \text{ for some } 0 \leq c \leq 1
+\end{equation*}
+
+can be rewritten as 
+
+\begin{equation*}
+ J(\theta^{[t]}) = J(\theta^{[t - 1]}) - \frac{\alpha}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) + \frac{\alpha ^ 2}{2} \nabla J(\theta^{[t-1]})^\top \nabla^2 J(\theta^{[t - 1]} - c \alpha\nabla J(\theta^{[t-1]})) \nabla J(\theta^{[t-1]})
+\end{equation*}
+
+Applying the spectral theorem,
+
+\begin{equation*}
+\nabla J(\theta^{[t-1]})^\top \nabla^2 J(\theta^{[t - 1]} - c \alpha\nabla J(\theta^{[t-1]})) \nabla J(\theta^{[t-1]} \le \beta_{max} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}
+\end{equation*}
+
+So the above equation can derive the following inequality
+\begin{equation*}
+  J(\theta^{[t]}) \le J(\theta^{[t - 1]}) - \frac{\alpha}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) + \frac{\alpha^2 \beta_{max}}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}
+\end{equation*}
+
+To prove the objective function is strictly decreasing, we need to guarantee that
+
+\begin{equation*}
+J(\theta^{[t - 1]}) - \frac{\alpha}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) + \frac{\alpha^2 \beta_{max}}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]} < J(\theta^{[t - 1]})
+\end{equation*}
+
+given or equivalently, 
+
+\begin{equation*}
+\frac{\alpha(\alpha \beta - 1)}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) < 0
+\end{equation*}
+
+When $0 < \alpha < \frac{1}{\beta}$, the above inequality is satisfied.
+
+
+\textit{Optional (no credit):}
+
+We just proved that 
+
+\begin{equation*}
+J(\theta^{[t]}) - J(\theta^{[t - 1]}) = \frac{\alpha(\alpha \beta - 1)}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) = \frac{\alpha(\alpha \beta - 1)}{2} ||\nabla J(\theta^{[t - 1]})||_{2}^{2}
+\end{equation*}
+
+Given $J(\theta^{[t]})$ will converge to some finite value as t approaches infinity,  aka $\lim_{t\to\infty} J(\theta^{[t]}) - J(\theta^{[t - 1]}) = 0$, we can get 
+
+\begin{equation*}
+\lim_{t\to\infty}||\nabla J(\theta^{[t]})||_{2}^{2}=0
+\end{equation*}
+
 \end{answer}
