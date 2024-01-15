@@ -19,6 +19,8 @@ def update_theta(theta, lr):
         the new value of theta after 1 iteration of gradient descend
     """
     # *** START CODE HERE ***
+    theta = theta - lr * 2 * A.dot(theta)
+    return theta
     # *** END CODE HERE ***
 
 def gradient_descend(J, theta_0, lr, update_theta, epsilon=1e-50):
@@ -35,7 +37,15 @@ def gradient_descend(J, theta_0, lr, update_theta, epsilon=1e-50):
         epsilon: we stop when the absolute loss function differences is below this value
     """
     theta = theta_0
+    i = 0
     # *** START CODE HERE ***
+    while True:
+        # i = i + 1
+        prev = theta
+        theta = update_theta(theta, lr)
+        if np.abs(J(theta) - J(prev)) < epsilon or J(theta) > 1e20:
+            # print(f"i is {i}, delta is {np.abs(J(theta) - J(prev))}")
+            break
     # *** END CODE HERE ***
     return theta
 

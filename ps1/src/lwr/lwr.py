@@ -16,10 +16,23 @@ def main(tau, train_path, eval_path):
 
     # *** START CODE HERE ***
     # Fit a LWR model
+    model = LocallyWeightedLinearRegression(tau)
+    model.fit(x_train, y_train)
+    # Load validation set
+    x_eval, y_eval = util.load_dataset(eval_path, add_intercept=True)
+    print(f"y_eval.shape = {y_eval.shape}")
+    # Get predictions on the validation set
+    y_pred = model.predict(x_eval)
     # Get MSE value on the validation set
-    # Plot validation predictions on top of training set
-    # No need to save predictions
-    # Plot data
+    mse = np.mean((y_eval - y_pred) ** 2)
+    print(f'MSE on validation set: {mse}') 
+    # Plot validation predictions on top of training set  def plot(x, y, theta, save_path, correction=1.0):
+    plt.figure()
+    plt.plot(x_train[:, 1], y_train, 'bx', label='Training Data')
+    plt.plot(x_eval[:, 1], y_eval, 'go', label='Validation Data')
+    plt.plot(x_eval[:, 1], y_pred, 'ro', label='LWR Predictions')
+    plt.legend()
+    plt.show()
     # *** END CODE HERE ***
 
 
@@ -43,6 +56,8 @@ class LocallyWeightedLinearRegression():
 
         """
         # *** START CODE HERE ***
+        self.x = x
+        self.y = y
         # *** END CODE HERE ***
 
     def predict(self, x):
@@ -55,6 +70,20 @@ class LocallyWeightedLinearRegression():
             Outputs of shape (m,).
         """
         # *** START CODE HERE ***
+        m, n = x.shape
+        y_pred = np.zeros(m)
+
+        for i in range(m):
+            # Calculate weights for each point in x_train
+            distances = np.sum((self.x - x[i, :]) ** 2, axis=1)
+            weights = np.exp(-distances / (2 * self.tau ** 2))
+
+            # Calculate weighted mean
+            W = np.diag(weights)
+            theta = np.linalg.inv(self.x.T @ W @ self.x) @ self.x.T @ W @ self.y
+            y_pred[i] = theta.T @ x[i, :]
+
+        return y_pred
         # *** END CODE HERE ***
 
 if __name__ == '__main__':
