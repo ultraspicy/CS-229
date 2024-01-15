@@ -1,2 +1,32 @@
 \begin{answer}
+
+Given 
+\begin{equation*}
+	\phi(x^{(i)}) = \left[\begin{array}{c} 1\\ x^{(i)} \\ (x^{(i)})^2 \\ (x^{(i)})^3 \end{array}\right] = \left[\begin{array}{c} \hat{x}^{(i)}_0 \\ \hat{x}^{(i)}_1 \\ \hat{x}^{(i)}_2 \\ \hat{x}^{(i)}_3 \end{array}\right] \in \mathbb{R}^4
+\end{equation*}
+
+and 
+\begin{equation*}
+	\theta = \left[\begin{array}{c} \theta_0\\ \theta_1 \\ \theta_2 \\ \theta_3 \end{array}\right]
+\end{equation*}
+
+The the objective function $J(\theta)$ of the linear regression problem on the new dataset $\{(\hat{x}^{(i)}, y^{(i)})\}_{i=1}^{\nexp}$ can be written as 
+
+\begin{equation*}
+	J(\theta) = \sum_{i=1}^\nexp \left( y^{(i)} - \theta ^\top \hat{x}^{(i)}\right) ^ 2
+\end{equation*}
+
+And 
+\begin{equation*}
+    \nabla J(\theta) = \left[\begin{matrix}
+        \sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_0 \\
+\sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_1
+\\ \sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_2
+ \\ \sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_3 \end{matrix} \right]
+\end{equation*}
+
+Rule of batch gradient descent algorithm for linear regress
+\begin{equation*}
+	\theta^{[t]} = \theta^{[t-1]} - \alpha\nabla J(\theta^{[t-1]})
+\end{equation*}
 \end{answer}
