@@ -87,3 +87,7 @@ def plot(x, y, theta, save_path, correction=1.0):
     plt.xlabel('x1')
     plt.ylabel('x2')
     plt.savefig(save_path)
+
+def print_matrix(matrix):
+    for row in matrix:
+        print(' '.join('{:4}'.format(elem) for elem in row))
