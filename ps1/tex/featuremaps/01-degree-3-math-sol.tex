@@ -1,32 +1,41 @@
 \begin{answer}
 
-Given 
+Let $X$ be the following
 \begin{equation*}
-	\phi(x^{(i)}) = \left[\begin{array}{c} 1\\ x^{(i)} \\ (x^{(i)})^2 \\ (x^{(i)})^3 \end{array}\right] = \left[\begin{array}{c} \hat{x}^{(i)}_0 \\ \hat{x}^{(i)}_1 \\ \hat{x}^{(i)}_2 \\ \hat{x}^{(i)}_3 \end{array}\right] \in \mathbb{R}^4
+	\hat{X} = \left[\begin{matrix}
+	    1 & x^{(1)} & x^{(1)}^2 & x^{(1)}^3 \\
+            1 & x^{(2)} & x^{(2)}^2 & x^{(2)}^3 \\
+            \cdots & \cdots & \cdots & \cdots \\
+            1 & x^{(n)} & x^{(n)}^2 & x^{(n)}^3 \\
+	\end{matrix} \right] = \left[\begin{matrix} (\hat{x}^{(1)})^T \\ (\hat{x}^{(2)})^T \\ 
+ \cdots \\ (\hat{x}^{(n)})^T  \end{matrix} \right] \in  
+ \mathbb{R}^{n*4}
 \end{equation*}
 
 and 
 \begin{equation*}
-	\theta = \left[\begin{array}{c} \theta_0\\ \theta_1 \\ \theta_2 \\ \theta_3 \end{array}\right]
+	\theta = \left[\begin{array}{c} \theta_0\\ \theta_1 \\ \theta_2 \\ \theta_3 \end{array}\right],  y = \left[\begin{array}{c} y^{(1)} \\ y^{(2)}\\ \vdots \\ y^{(n)} \end{array}\right]
 \end{equation*}
 
 The the objective function $J(\theta)$ of the linear regression problem on the new dataset $\{(\hat{x}^{(i)}, y^{(i)})\}_{i=1}^{\nexp}$ can be written as 
 
 \begin{equation*}
-	J(\theta) = \sum_{i=1}^\nexp \left( y^{(i)} - \theta ^\top \hat{x}^{(i)}\right) ^ 2
+	J(\theta) = \sum_{i=1}^\nexp \left( y^{(i)} - \theta ^\top \hat{x}^{(i)}\right) ^ 2 = (\hat{X} \theta - y)^T(\hat{X} \theta - y)
 \end{equation*}
 
 And 
 \begin{equation*}
-    \nabla J(\theta) = \left[\begin{matrix}
-        \sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_0 \\
-\sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_1
-\\ \sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_2
- \\ \sum_{i=1}^\nexp 2 \left( \theta ^\top \hat{x}^{(i)} - y^{(i)}\right) \hat{x}^{(i)}_3 \end{matrix} \right]
+    \nabla J(\theta) = 2(\hat{X}^T\hat{X})\theta - 2 \hat{X}^Ty 
 \end{equation*}
 
-Rule of batch gradient descent algorithm for linear regress
+Rule of batch gradient descent algorithm for linear regress, where $\alpha$ is the learning rate
 \begin{equation*}
-	\theta^{[t]} = \theta^{[t-1]} - \alpha\nabla J(\theta^{[t-1]})
+	\theta^{[t]} = \theta^{[t-1]} - 2\alpha \left((\hat{X}^T\hat{X})\theta^{[t-1]} -  \hat{X}^Ty\right)
 \end{equation*}
+
+Let the $\nabla J(\theta) = 0$, the normal equation for minimal $\theta$ is 
+\begin{equation*}
+	\theta = (\hat{X}^T\hat{X})^{-1} \hat{X}^Ty
+\end{equation*}
+
 \end{answer}
