@@ -37,7 +37,6 @@ def gradient_descend(J, theta_0, lr, update_theta, epsilon=1e-50):
         epsilon: we stop when the absolute loss function differences is below this value
     """
     theta = theta_0
-    i = 0
     # *** START CODE HERE ***
     while True:
         # i = i + 1
