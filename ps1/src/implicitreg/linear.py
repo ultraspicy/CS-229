@@ -32,12 +32,15 @@ def linear_model_main():
     train_path = 'ir1_train.csv'
     test_path = 'ir1_test.csv'
     X, Y = util.load_dataset(train_path)
+    print(f"X.shape = {X.shape}")
     X_test, Y_test = util.load_dataset(test_path)
     
     beta_0 = None
     # *** START CODE HERE ***
     # find the min norm solution of the training dataset
     # store the results to beta_0
+    beta_0 = X.T @ np.linalg.inv(X @ X.T) @ Y
+    print(f"beta_0.shape = {beta_0.shape}")
     # *** END CODE HERE ***
     
     assert(np.allclose(X.dot(beta_0), Y))
@@ -46,11 +49,20 @@ def linear_model_main():
     # to help you understand the starter code, check the dimension 
     # of ns before you use it
     ns = null_space(X).T
+    print(f"ns.shape = {ns.shape}")
 
     # *** START CODE HERE ***
     # find 3 different solutions and generate a scatter plot
     # your plot should include the min norm solution and 3 different solutions
     # you can use the function generate_plot()
+    betas = [beta_0, 
+             beta_0 + np.squeeze(ns[9].reshape((-1, 1))),
+             beta_0 + np.squeeze(ns[6].reshape((-1, 1))),
+             beta_0 + np.squeeze(ns[3].reshape((-1, 1)))]
+
+    print(f"ns[3].reshape((-1, 1)).shape = {ns[3].reshape((-1, 1)).shape}")
+    generate_plot(betas, X, Y, X_test, Y_test, "ps1_q4_(a).png")
+
     # *** END CODE HERE ***
 
 if __name__ == '__main__':
