@@ -1,3 +1,21 @@
-
 \begin{answer}
+
+Let \beta = $(\theta^{\odot 2} -\phi^{\odot 2})$,
+\begin{equation}
+	f_{\theta,\phi}(x)=x^\top (\theta^{\odot 2} -\phi^{\odot 2}) = x^\top \beta
+\end{equation}
+
+Then $J(\theta,\phi)$ can be written as 
+
+\begin{equation}
+    J(\theta,\phi)=\frac{1}{4n}\sum_{i=1}^{n}(f_{\theta,\phi}(x^{(i)})-y^{(i)})^2 = \frac{1}{4n} \| X \beta - y \|_2^2
+\end{equation}
+
+Given $X^\top X$ is invertible, in sub-question (a), we know when $\beta=X^\top (XX^\top)^{-1}\vec{y}+\zeta$, the cost is 0, meaning $J(\theta, \phi)$ will be 0 when 
+
+\begin{equation}
+    \theta^{\odot 2} -\phi^{\odot 2} = X^\top (XX^\top)^{-1}\vec{y}+\zeta
+\end{equation}
+
+Consider a single solution where $\zeta = 0$, $X^\top (XX^\top)^{-1}\vec{y}$ is just a vector. Then $ X^\top (XX^\top)^{-1}\vec{y} = \theta^{\odot 2} -\phi^{\odot 2}$ has inifitely many solutions 
 \end{answer}

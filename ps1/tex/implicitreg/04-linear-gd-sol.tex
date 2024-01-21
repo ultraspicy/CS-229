@@ -1,3 +1,30 @@
-
 \begin{answer}
+
+Zero initialization means $\beta^{(0)}$ is a trivial linear combination of row vectors $\left[x^{(1)}, \cdots, x^{(n)}\right]$. So we can write $\beta^{(0)} = X^\top w^{(0)}$.
+
+
+If $\beta^{(t-1)} = X^\top w^{(t-1)}$, then the equation $(11)$ can be written as 
+\begin{equation}
+	\beta^{(t)}= X^\top w^{(t-1)}-\frac{\eta}{n} X^\top (XX^\top w^{(t-1)}-\vec{y}).
+\end{equation}
+
+Given $X^\top (XX^\top w^{(t-1)}-\vec{y})$ is also a vector, we proved for $t$, $\beta^{(t)}$ is a linear combination of row vectors of $X$
+
+If the GD algorithm  with zero initialization converges to a solution $\hat{\beta}$ satisfying $J(\hat{\beta})=0$, then 
+
+\begin{equation}
+	\|X\hat{\beta} - \vec y \|_2^2=0 , X\hat{\beta} = \vec y
+\end{equation}
+
+Replacing $\hat{\beta} = X^\top \hat w$ in (13), 
+
+\begin{equation}
+	\hat w = (X X^\top)^{-1} y
+\end{equation}
+
+So $\hat{\beta}$ is the minimum nor solution in the sense that 
+\begin{equation}
+	\hat{\beta} = X^\top \hat w = X^\top (X X^\top)^{-1} y
+\end{equation}
+
 \end{answer}
