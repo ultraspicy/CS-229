@@ -1,3 +1,23 @@
-
 \begin{answer}
+
+Given 
+\begin{equation}
+    J_\lambda(\beta)=\frac{1}{2}\|X\beta-\vec{y}\|_2^2+\frac{\lambda}{2}\|\beta\|_2^2    
+\end{equation}
+
+then
+\begin{equation}
+    \nabla J_\lambda(\beta) =  X^\top X \beta -  X^\top y + \lambda \beta
+\end{equation}
+
+let $\nabla J_\lambda(\beta) = 0$, we get 
+
+\begin{equation}
+     X^\top X \beta + \lambda \beta = X^\top y = (X^\top X + \lambda I_{d \times d}) \beta
+\end{equation}
+
+then 
+\begin{equation}
+    \hat{\beta}_\lambda=(X^\top X+\lambda I_{d\times d})^{-1}X^\top \vec{y}
+\end{equation}
 \end{answer}

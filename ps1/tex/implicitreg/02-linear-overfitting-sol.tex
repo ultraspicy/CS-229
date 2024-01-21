@@ -1,2 +1,22 @@
 \begin{answer}
+
+For easier notation, let  $L = (X X^\top)^{-1}$, then $\rho=X^\top (X X^\top)^{-1}\vec{y} = X^T L \vec y$ and $\beta=X^\top (XX^\top)^{-1}\vec{y}+\zeta = X^\top L \vec{y} + \zeta$
+
+Then 
+\begin{equation}
+    \|\beta\|_2^2= (X^\top L \vec{y} + \zeta)^\top (X^\top L \vec{y} + \zeta) = \vec y^\top L^\top X X^\top L \vec y + y^\top L^\top X \zeta + \zeta^\top X^\top L y +  \|\zeta\|_2^2
+\end{equation}
+
+Meantime, $\rho=X^\top (X X^\top)^{-1}\vec{y} = X^T L \vec y$, then 
+\begin{equation}
+    \|\rho\|_2^2 = (X^T L \vec y)^\top (X^T L \vec y) = \vec y^\top L^\top X X^\top L \vec y
+\end{equation}
+
+Combine with (8) and (9), and given $X\zeta = 0 = \zeta^\top X^\top$, we can get 
+
+\begin{equation}
+    \|\beta\|_2^2=\|\rho\|_2^2+\|\zeta\|_2^2 \ge \|\rho\|_2^2
+\end{equation}
+
+In other words, $\rho$ is the minimum norm solution  
 \end{answer}
