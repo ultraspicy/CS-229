@@ -111,6 +111,6 @@ def plot_all(test_err, save_path, n_list):
     # Add labels and save to disk
     plt.xlabel('Num Samples')
     plt.ylabel('Test Err')
-    plt.ylim(0,2)
+    plt.ylim(0.005,0.015)
     plt.legend()
     plt.savefig(save_path)

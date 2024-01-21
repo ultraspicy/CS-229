@@ -34,7 +34,10 @@ class QP:
         for t in range(max_step):
             # *** START CODE HERE ***
             # Compute the gradient of self.theta, self.phi using data X, Y
+            grad_theta, grad_phi = self.gradient(X, Y)
             # and update self.theta, self.phi
+            self.theta = self.theta - eta * grad_theta
+            self.phi = self.phi - eta * grad_phi
             # *** END CODE HERE ***
             if verbose:
                 log_steps.append(t)
@@ -73,7 +76,10 @@ class QP:
 
             # *** START CODE HERE ***
             # Compute the gradient of self.theta, self.phi using data X_batch, Y_batch
+            grad_theta, grad_phi = self.gradient(X_batch, Y_batch)
             # and update self.theta, self.phi
+            self.theta = self.theta - eta * grad_theta
+            self.phi = self.phi - eta * grad_phi
             # *** END CODE HERE ***
             if verbose:
                 log_steps.append(t)
@@ -89,9 +95,21 @@ class QP:
         """Return the gradient w.r.t. theta and phi
         """
         # *** START CODE HERE ***
+        n = X.shape[0]
+        error = X @ (self.theta ** 2 - self.phi ** 2) - Y
+        #print(f"error = {error}")
+        # print(f"error.shape = {error.shape}")
+
+        # Gradient w.r.t. theta
+        grad_theta = 1 / n * (X * (error[:, None] * self.theta[None, :])).mean(axis=0)
+        # Gradient w.r.t. phi
+        grad_phi = -1 / n * (X * (error[:, None] * self.phi[None, :])).mean(axis=0)
+       
+        return grad_theta, grad_phi
         # *** END CODE HERE ***
     
     def test(self, X, Y):
+        #print(f"self.predict(X) = {self.predict(X)}")
         return np.average(0.25 * (self.predict(X) - Y) ** 2)
 
 def QP_model_initialization(train_path, test_path):

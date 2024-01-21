@@ -61,7 +61,7 @@ def linear_model_main():
              beta_0 + np.squeeze(ns[3].reshape((-1, 1)))]
 
     print(f"ns[3].reshape((-1, 1)).shape = {ns[3].reshape((-1, 1)).shape}")
-    generate_plot(betas, X, Y, X_test, Y_test, "ps1_q4_(a).png")
+    generate_plot(betas, X, Y, X_test, Y_test, "ps1_q4_(c).png")
 
     # *** END CODE HERE ***
 

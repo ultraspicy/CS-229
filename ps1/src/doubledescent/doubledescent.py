@@ -24,6 +24,13 @@ def regression(train_path, test_path):
 
     test_err = 0
     # *** START CODE HERE ***
+    # find the beta
+    beta = np.linalg.pinv(x_train.T @ x_train) @ x_train.T @ y_train
+    # make prediction
+    y_pred = x_test @ beta 
+    # compute the MSE
+    m = x_test.shape[0]
+    test_err = 1 / (2 * m) * np.linalg.norm(y_pred - y_test)
     # *** END CODE HERE
     return test_err
 
@@ -44,17 +51,30 @@ def ridge_regression(train_path, test_path):
 
     test_err = []
     # *** START CODE HERE ***
+    d = x_test.shape[1]
+    m = x_test.shape[0]
+   
+    for reg in reg_list:
+        # find the beta
+        beta = np.linalg.pinv(x_train.T @ x_train + reg * np.eye(d)) @ x_train.T @ y_train
+        # make prediction
+        y_pred = x_test @ beta 
+        # compute the MSE
+        mse = 1 / (2 * m) * np.linalg.norm(y_pred - y_test)
+        test_err.append(mse)
+    
     # *** END CODE HERE
     return test_err
 
 if __name__ == '__main__':
-    test_err = []
-    for n in n_list:
-        test_err.append(regression(train_path='train%d.csv' % n, test_path='test.csv'))
-    util.plot(test_err, 'unreg.png', n_list)
+    # test_err = []
+    # for n in n_list:
+    #     test_err.append(regression(train_path='train%d.csv' % n, test_path='test.csv'))
+    # util.plot(test_err, 'unreg.png', n_list)
 
     test_errs = []
     for n in n_list:
         test_errs.append(ridge_regression(train_path='train%d.csv' % n, test_path='test.csv'))
     test_errs = np.asarray(test_errs).T
+    print(f"test_errs.shape = {test_errs.shape}")
     util.plot_all(test_errs, 'reg.png', n_list)

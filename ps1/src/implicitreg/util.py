@@ -92,7 +92,7 @@ def plot_training_and_test_curves(logs, save_path, label):
     for i in range(len(logs)):
         log = logs[i]
         plt.plot(log[0][::10], log[1][::10], '--', label = "training error, " + label[i])
-    plt.ylim([0, 0.5])
+    plt.ylim([0, 2]) # 0.5
     plt.xlabel('steps')
     plt.legend(loc='center left', bbox_to_anchor=(1, 0.5))
     plt.savefig(save_path, bbox_inches='tight')
