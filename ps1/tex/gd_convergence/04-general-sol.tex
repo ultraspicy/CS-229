@@ -29,13 +29,16 @@ To prove the objective function is strictly decreasing, we need to guarantee tha
 J(\theta^{[t - 1]}) - \frac{\alpha}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) + \frac{\alpha^2 \beta_{max}}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]} < J(\theta^{[t - 1]})
 \end{equation*}
 
-given or equivalently, 
+or equivalently, 
 
 \begin{equation*}
 \frac{\alpha(\alpha \beta - 1)}{2} \nabla J(\theta^{[t-1]})^\top \nabla J(\theta^{[t-1]}) < 0
 \end{equation*}
 
-When $0 < \alpha < \frac{1}{\beta}$, the above inequality is satisfied.
+\begin{equation}
+     \frac{\alpha(\alpha \beta - 1)}{2} \|\nabla J(\theta^{[t-1]}) \|_2^2 < 0
+\end{equation}
+When $0 < \alpha < \frac{1}{\beta_{max}}$, the above inequality is satisfied.
 
 
 \textit{Optional (no credit):}
