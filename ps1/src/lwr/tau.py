@@ -44,9 +44,12 @@ def main(tau_values, train_path, valid_path, test_path, pred_path):
         plt.figure(f"tau = {tau}")
         plt.plot(x_train[:, 1], y_train, 'bx', label='Training Data')
         plt.plot(x_valid[:, 1], y_valid, 'go', label='Validation Data')
-        plt.plot(x_valid[:, 1], y_valid_pred, 'ro', label='LWR Predictions')
+        lable = f'LWR Predictions tau = {tau}'
+        plt.plot(x_valid[:, 1], y_valid_pred, 'ro', label=lable)
         plt.legend()
-        plt.show()
+        filename = f'ps1_q2_(c)_tau_{tau}.png'
+        plt.savefig(filename)
+        plt.clf()
             
     # Fit a LWR model with the best tau value
     model = LocallyWeightedLinearRegression(best_tau)
@@ -54,13 +57,15 @@ def main(tau_values, train_path, valid_path, test_path, pred_path):
     # Run on the test set to get the MSE value
     y_test_pred = model.predict(x_test)
     mse = np.mean((y_test - y_test_pred) ** 2)
-    print(f"best_tau = {best_tau}, mse under best_tau is {mse}")
-    plt.figure(f"best_tau = {best_tau}")
-    plt.plot(x_train[:, 1], y_train, 'bx', label='Training Data')
-    plt.plot(x_test[:, 1], y_test, 'go', label='Test Data')
-    plt.plot(x_test[:, 1], y_test_pred, 'ro', label='LWR Predictions on test data')
-    plt.legend()
-    plt.show()
+    print(f"best_tau = {best_tau}, MSE on the test split using this τ value is {mse}")
+    # plt.figure(f"best_tau = {best_tau}")
+    # plt.plot(x_train[:, 1], y_train, 'bx', label='Training Data')
+    # plt.plot(x_test[:, 1], y_test, 'go', label='Test Data')
+    # plt.plot(x_test[:, 1], y_test_pred, 'ro', label='LWR Predictions on test data')
+    # plt.legend()
+    filename = f'ps1_q2_(c)_best_tau_{tau}.png'
+    plt.savefig(filename)
+    plt.clf()
     # Save predictions to pred_path  def plot(x, y, theta, save_path, correction=1.0):
     # Plot data
     # *** END CODE HERE ***

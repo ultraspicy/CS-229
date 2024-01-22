@@ -32,7 +32,8 @@ def main(tau, train_path, eval_path):
     plt.plot(x_eval[:, 1], y_eval, 'go', label='Validation Data')
     plt.plot(x_eval[:, 1], y_pred, 'ro', label='LWR Predictions')
     plt.legend()
-    plt.show()
+    plt.savefig('ps1_q2_(b).png')
+    plt.clf()
     # *** END CODE HERE ***
 
 
