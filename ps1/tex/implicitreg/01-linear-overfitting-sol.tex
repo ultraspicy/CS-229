@@ -1,4 +1,36 @@
 \begin{answer} 
 
-Given $\beta^T X^T X \beta - \beta^T X^T y - y^T X \beta + y^T y = 0$
+(i) prove equation(9) is sufficient to equation(8)
+
+Replacing $\beta=X^\top (XX^\top)^{-1}\vec{y}+\zeta $ in  $J(\beta)=\frac{1}{2n}\|X\beta-\vec{y}\|_2^2.$,
+
+\begin{equation}
+    \frac{1}{2n}\|X\beta-\vec{y}\|_2^2 =  \frac{1}{2n}\|X\left(X^\top (XX^\top)^{-1}\vec{y}+\zeta\right)-\vec{y}\|_2^2 = \frac{1}{2n}\|\vec{y}+X\zeta-\vec{y}\|_2^2
+\end{equation}
+
+Given $\zeta$ in orthogonal to all the data $x^{(i)}$, the above equation equals 0
+
+(ii) prove equation(9) is necessary to equation(8)
+
+Given $J(\beta) = 0$, we get 
+\begin{equation}
+    X\beta-\vec{y} = 0,  X\beta = \vec{y}
+\end{equation}
+
+Let $\rho = X^\top(X X\top)^{-1}\vec{y}$, then 
+\begin{equation}
+    X\rho = X X^\top(X X^\top)^{-1}\vec{y} = \vec{y}
+\end{equation}
+
+Let equation (11) - equation (12), we get
+\begin{equation}
+    X(\beta - \rho) = 0
+\end{equation}
+AKA 
+\begin{equation}
+    \beta = \rho + \zeta = X^\top(X X\top)^{-1}\vec{y} + \zeta
+\end{equation}
+
+Above all, (9) is both sufficient and necessary to (8)
+
 \end{answer}
