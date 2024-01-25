@@ -97,13 +97,18 @@ class QP:
         # *** START CODE HERE ***
         n = X.shape[0]
         error = X @ (self.theta ** 2 - self.phi ** 2) - Y
-        #print(f"error = {error}")
+        print("=================================")
+        print(f"X.shape = {X.shape}")
+        print(f"self.theta.shape = {self.theta.shape}")
+        print(f"error[:, None].shape = {error[:, None].shape}")
+        print(f"self.theta[None, :].shape = {self.theta[None, :].shape}")
+        print(f"(error[:, None] * self.theta[None, :]).shape = {(error[:, None] * self.theta[None, :]).shape}")
         # print(f"error.shape = {error.shape}")
 
         # Gradient w.r.t. theta
-        grad_theta = 1 / n * (X * (error[:, None] * self.theta[None, :])).mean(axis=0)
+        grad_theta =  (X * error[:, None] * self.theta[None, :]).mean(axis=0)
         # Gradient w.r.t. phi
-        grad_phi = -1 / n * (X * (error[:, None] * self.phi[None, :])).mean(axis=0)
+        grad_phi = -1 * (X * error[:, None] * self.phi[None, :]).mean(axis=0)
        
         return grad_theta, grad_phi
         # *** END CODE HERE ***
