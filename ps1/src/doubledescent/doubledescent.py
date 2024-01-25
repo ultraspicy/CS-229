@@ -67,10 +67,10 @@ def ridge_regression(train_path, test_path):
     return test_err
 
 if __name__ == '__main__':
-    # test_err = []
-    # for n in n_list:
-    #     test_err.append(regression(train_path='train%d.csv' % n, test_path='test.csv'))
-    # util.plot(test_err, 'unreg.png', n_list)
+    test_err = []
+    for n in n_list:
+        test_err.append(regression(train_path='train%d.csv' % n, test_path='test.csv'))
+    util.plot(test_err, 'unreg.png', n_list)
 
     test_errs = []
     for n in n_list:

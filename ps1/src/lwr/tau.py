@@ -58,12 +58,12 @@ def main(tau_values, train_path, valid_path, test_path, pred_path):
     y_test_pred = model.predict(x_test)
     mse = np.mean((y_test - y_test_pred) ** 2)
     print(f"best_tau = {best_tau}, MSE on the test split using this τ value is {mse}")
-    # plt.figure(f"best_tau = {best_tau}")
-    # plt.plot(x_train[:, 1], y_train, 'bx', label='Training Data')
-    # plt.plot(x_test[:, 1], y_test, 'go', label='Test Data')
-    # plt.plot(x_test[:, 1], y_test_pred, 'ro', label='LWR Predictions on test data')
-    # plt.legend()
-    filename = f'ps1_q2_(c)_best_tau_{tau}.png'
+    plt.figure(f"best_tau = {best_tau}")
+    plt.plot(x_train[:, 1], y_train, 'bx', label='Training Data')
+    plt.plot(x_test[:, 1], y_test, 'go', label='Test Data')
+    plt.plot(x_test[:, 1], y_test_pred, 'ro', label='LWR Predictions on test data')
+    plt.legend()
+    filename = f'ps1_q2_(c)_best_tau_{best_tau}.png'
     plt.savefig(filename)
     plt.clf()
     # Save predictions to pred_path  def plot(x, y, theta, save_path, correction=1.0):
