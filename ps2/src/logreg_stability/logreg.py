@@ -14,7 +14,26 @@ def main(train_path, save_path):
 
     # *** START CODE HERE ***
     # Train a logistic regression classifier
+    # print(f"x_train.shape = {x_train.shape}")
+    # print(f"y_train.shape = {y_train.shape}")
+    model = LogisticRegression(verbose=False)
+    model.fit(x_train, y_train)
+    preds = model.predict(x_train)
     # Use np.savetxt to save predictions on eval set to save_path
+    np.savetxt(save_path, preds)
+    if save_path == 'logreg_pred_a.txt':
+        util.plot(x_train, y_train, model.theta, "ps2::q3::(a)", correction=1.0)
+    else:
+        util.plot(x_train, y_train, model.theta, "ps2::q3::(b)", correction=1.0)
+
+    model = LogisticRegression(verbose=False, regularization=0.01)
+    model.fit(x_train, y_train)
+    preds = model.predict(x_train)
+    np.savetxt(save_path + '_reg', preds)
+    if save_path == 'logreg_pred_a.txt':
+        util.plot(x_train, y_train, model.theta, "ps2::q3::(d)_ds1_a_reg", correction=1.0)
+    else:
+        util.plot(x_train, y_train, model.theta, "ps2::q3::(d)_ds1_b_reg", correction=1.0)
     # *** END CODE HERE ***
 
 
@@ -26,8 +45,8 @@ class LogisticRegression:
         > clf.fit(x_train, y_train)
         > clf.predict(x_eval)
     """
-    def __init__(self, learning_rate=1, max_iter=100000, eps=1e-5,
-                 theta_0=None, verbose=True):
+    def __init__(self, learning_rate=0.1, max_iter=100000, eps=1e-5,
+                 theta_0=None, verbose=True, regularization=0):
         """
         Args:
             learning_rate: Step size for iterative solvers only.
@@ -43,6 +62,7 @@ class LogisticRegression:
         self.verbose = verbose
 
         # *** START CODE HERE ***
+        self.regularization = regularization
         # *** END CODE HERE ***
 
     def fit(self, x, y):
@@ -53,7 +73,28 @@ class LogisticRegression:
             y: Training example labels. Shape (n_examples,).
         """
         # *** START CODE HERE ***
+        self.theta = np.zeros(x.shape[1]) if self.theta is None else self.theta
+        #print(f"theta = {self.theta}") # theta.shape = (3,)
+        
+        for i in range(self.max_iter):
+            h = 1 / (1 + np.exp(-(x @ self.theta))) # (100,)
+            grad = np.dot(x.T, (y - h)) - self.regularization * self.theta 
+            self.theta = self.theta + self.learning_rate * grad
+            if np.linalg.norm(grad) < self.eps:
+                print(f"LR converge at i = {i}")
+                break
+            if self.verbose and i % 10000 == 0:
+                print(f"grad = {grad}")
+                print(f"self.theta = {self.theta}")
+                print(f'Iteration {i}, Loss: {self._compute_loss(x, y)}')
+        print(f'Loss: {self._compute_loss(x, y)}')
+        print(f"Final theta = {self.theta}")
         # *** END CODE HERE ***
+
+    def _compute_loss(self, x, y):
+        n = x.shape[0]
+        h = self.predict(x)
+        return -(1/n) * np.sum(y * np.log(h + self.eps) + (1 - y) * np.log(1 - h + self.eps))
 
     def predict(self, x):
         """Return predicted probabilities given new inputs x.
@@ -65,6 +106,7 @@ class LogisticRegression:
             Outputs of shape (n_examples,).
         """
         # *** START CODE HERE ***
+        return 1 / (1 + np.exp(-(x @ self.theta)))
         # *** END CODE HERE ***
 
 if __name__ == '__main__':
