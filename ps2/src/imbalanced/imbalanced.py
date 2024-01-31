@@ -72,7 +72,7 @@ def main(train_path, validation_path, save_path):
     model.fit(x_train, y_train)
     x_validation, y_validation = util.load_dataset(validation_path, add_intercept=True)
     validation_preds = model.predict(x_validation)
-    np.savetxt(output_path_naive, validation_preds)
+    np.savetxt(output_path_upsampling, validation_preds)
     TN = 0
     TP = 0
     FN = 0
