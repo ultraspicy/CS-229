@@ -45,7 +45,7 @@ class LogisticRegression:
         > clf.fit(x_train, y_train)
         > clf.predict(x_eval)
     """
-    def __init__(self, learning_rate=0.1, max_iter=100000, eps=1e-5,
+    def __init__(self, learning_rate=1, max_iter=100000, eps=1e-5,
                  theta_0=None, verbose=True, regularization=0):
         """
         Args:
@@ -75,10 +75,10 @@ class LogisticRegression:
         # *** START CODE HERE ***
         self.theta = np.zeros(x.shape[1]) if self.theta is None else self.theta
         #print(f"theta = {self.theta}") # theta.shape = (3,)
-        
+        n = x.shape[0]
         for i in range(self.max_iter):
             h = 1 / (1 + np.exp(-(x @ self.theta))) # (100,)
-            grad = np.dot(x.T, (y - h)) - self.regularization * self.theta 
+            grad = 1 / n * np.dot(x.T, (y - h)) - self.regularization * self.theta 
             self.theta = self.theta + self.learning_rate * grad
             if np.linalg.norm(grad) < self.eps:
                 print(f"LR converge at i = {i}")
