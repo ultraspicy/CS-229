@@ -21,6 +21,10 @@ def softmax(x):
         A 2d numpy float array containing the softmax results of shape batch_size x number_of_classes
     """
     # *** START CODE HERE ***
+    x_shifted = x - np.max(x, axis=1, keepdims=True)
+    exp_x = np.exp(x_shifted)
+    softmax_x = exp_x / np.sum(exp_x, axis=1, keepdims=True)
+    return softmax_x
     # *** END CODE HERE ***
 
 def sigmoid(x):
@@ -34,6 +38,7 @@ def sigmoid(x):
         A numpy float array containing the sigmoid results
     """
     # *** START CODE HERE ***
+    return 1 / (1 + np.exp(-x))
     # *** END CODE HERE ***
 
 def get_initial_params(input_size, num_hidden, num_output):
@@ -63,9 +68,19 @@ def get_initial_params(input_size, num_hidden, num_output):
     """
 
     # *** START CODE HERE ***
+    # The function `np.random.randn`` from NumPy generates samples from 
+    # the standard normal distribution, which is a specific type of 
+    # normal (or Gaussian) distribution N(0,1)
+    W1 = np.random.randn(input_size, num_hidden)
+    b1 = np.zeros((num_hidden,))
+    W2 = np.random.randn(num_hidden, num_output)
+    b2 = np.zeros((num_output,))
+    
+    # Return the parameters as a dictionary
+    return {'W1': W1, 'b1': b1, 'W2': W2, 'b2': b2}
     # *** END CODE HERE ***
 
-def forward_prop(data, one_hot_labels, params):
+def forward_prop(data, one_hot_labels, params, verbose = False):
     """
     Implement the forward layer given the data, labels, and params.
     
@@ -84,9 +99,33 @@ def forward_prop(data, one_hot_labels, params):
             3. The average loss for these data elements
     """
     # *** START CODE HERE ***
+    W1 = params['W1']
+    b1 = params['b1'].reshape([-1, 1])
+    W2 = params['W2']
+    b2 = params['b2'].reshape([-1, 1])
+
+    z1 = W1.T @ data.T + b1 # 300, 1000
+    a1 = sigmoid(z1)
+    # at this point, z2 is 2D matrix, each column is a score vector
+    # score vector has 10 number, for 10 classes
+    # z2 has dimension of (#classes, batch_size) 
+    z2 = W2.T @ a1 + b2 #(10, 1000)
+    # probability_of_classes has dimension of (batch_size, # of classes)
+    # each row is a row vector, each element of it is a probability of corresponding class
+    probability_of_classes = softmax(z2.T) # (1000, 10)
+    
+    J = - np.mean(np.sum(one_hot_labels * np.log(probability_of_classes), axis = 1))
+
+    if verbose:
+        # print(f"a1 = {a1}")
+        print(f"z2.shape = {z2.shape}")
+        # print(f"z2 = {z2}")
+        print(f"probability_of_classes = {probability_of_classes.shape}")
+        print(f"J = {J}")
+    return a1, probability_of_classes, J
     # *** END CODE HERE ***
 
-def backward_prop(data, one_hot_labels, params, forward_prop_func):
+def backward_prop(data, one_hot_labels, params, forward_prop_func, verbose = False):
     """
     Implement the backward propegation gradient computation step for a neural network
     
@@ -107,6 +146,55 @@ def backward_prop(data, one_hot_labels, params, forward_prop_func):
             W1, W2, b1, and b2
     """
     # *** START CODE HERE ***
+    W1 = params['W1']
+    b1 = params['b1']
+    W2 = params['W2']
+    b2 = params['b2']
+    # get all specs of forward propagation 
+    a1, h, loss = forward_prop_func(data, one_hot_labels, params)
+    # z_2 is the score vector that has dimension of (# of classes, batch_size)
+    # patial_loss_over_z_2 and one_hot_labels has dimension (batch_size, # of classes)
+    # each row is a loss vector, with each element as the loss for its class
+    patial_loss_over_z_2 = h - one_hot_labels
+
+    # gradient of the previous activated input which will be used for computing 
+    # the gradient of the previous unactivated input
+    patial_loss_over_a_1 = W2 @ patial_loss_over_z_2.T # dimension [# of feature, # of sample]
+
+    ### =================================================================
+    # num_of_sample = data.shape[0]
+    # patial_loss_over_w_2 = np.zeros(W2.shape) # 300, 10
+    # for i in range(num_of_sample):
+    #     # print(f"forward_prop['a1'][:, i] = {forward_prop['a1'][:, i].shape}")
+    #     # print(f"patial_loss_over_z_2[i, :] = {patial_loss_over_z_2[i, :].shape}")
+    #     patial_loss_over_w_2 = patial_loss_over_w_2 + a1[:, i].reshape((-1, 1)) @ patial_loss_over_z_2[i, :].reshape((1, -1))
+    # patial_loss_over_w_2 = 1 / num_of_sample * patial_loss_over_w_2
+    patial_loss_over_w_2 = a1 @ patial_loss_over_z_2 / 1000 # 300, 10
+    ### =================================================================
+    patial_loss_over_b_2 = np.sum(patial_loss_over_z_2, axis = 0) / 1000 # (10, )
+    patial_loss_over_z_1 = a1 * (1 - a1) * patial_loss_over_a_1
+    # print(f"patial_loss_over_z_1.shape = {patial_loss_over_z_1.shape}") # 300, 1000
+    ### =================================================================
+    # patial_loss_over_w_1 = np.zeros(W1.shape) # (784, 300)
+    # for i in range(num_of_sample):
+    #     patial_loss_over_w_1 = patial_loss_over_w_1 + data[i,:].reshape((-1, 1)) @ patial_loss_over_z_1[:, i].reshape((1, -1))
+    # patial_loss_over_w_1 = 1 / num_of_sample * patial_loss_over_w_1
+    patial_loss_over_w_1 = patial_loss_over_z_1 @ data / 1000
+    # print(f"patial_loss_over_w_1.shape = {patial_loss_over_w_1.shape}") # 300, 784
+    ### =================================================================
+    patial_loss_over_b_1 = np.sum(patial_loss_over_z_1, axis = 1)  / 1000# (300,)
+    
+    if verbose:
+        # print(f"a1 = {a1}") # 1000, 10
+        # print(f"a1.shape = {a1.shape}") # 300, 1000
+        print(f"patial_loss_over_z_2[1,:] = {patial_loss_over_z_2[1,:]}") # 1000, 10
+        print(f"patial_loss_over_z_2.shape = {patial_loss_over_z_2.shape}") # 1000, 10
+        print(f"patial_loss_over_a_1.shape = {patial_loss_over_a_1.shape}")
+        print(f"patial_loss_over_w_2 = {patial_loss_over_w_2.shape}") 
+        print(f"patial_loss_over_b_2 = {patial_loss_over_b_2.shape}")
+        print(f"patial_loss_over_z_1 = {patial_loss_over_z_1.shape}") # 300, 1000
+        print(f"patial_loss_over_b_1 = {patial_loss_over_b_1.shape}")
+    return {'W1': patial_loss_over_w_1.T, 'b1': patial_loss_over_b_1, 'W2': patial_loss_over_w_2, 'b2':patial_loss_over_b_2}
     # *** END CODE HERE ***
 
 
@@ -132,9 +220,22 @@ def backward_prop_regularized(data, one_hot_labels, params, forward_prop_func, r
             W1, W2, b1, and b2
     """
     # *** START CODE HERE ***
+    grad_params = backward_prop(data, one_hot_labels, params, forward_prop_func)
+    
+    grad_params['W2'] += 2 * reg * params['W2']
+    grad_params['W1'] += 2 * reg * params['W1']
+    
+    return grad_params
     # *** END CODE HERE ***
 
-def gradient_descent_epoch(train_data, one_hot_train_labels, learning_rate, batch_size, params, forward_prop_func, backward_prop_func):
+def gradient_descent_epoch(train_data, 
+                           one_hot_train_labels, 
+                           learning_rate, 
+                           batch_size, 
+                           params, forward_prop_func,
+                           backward_prop_func,
+                           epoch,
+                           verbose = False):
     """
     Perform one epoch of gradient descent on the given training data using the provided learning rate.
 
@@ -154,11 +255,33 @@ def gradient_descent_epoch(train_data, one_hot_train_labels, learning_rate, batc
     """
 
     # *** START CODE HERE ***
+    # create mini-batches sequentially
+    train_data = train_data[epoch * batch_size:(epoch + 1) * batch_size,:]
+    one_hot_train_labels = one_hot_train_labels[epoch * batch_size:(epoch + 1) * batch_size,:]
+    # run backward propagation to get the gradiant
+    grad = backward_prop_func(train_data, one_hot_train_labels, params, forward_prop_func)
+    ## update gradient
+    params['W1'] = params['W1'] - learning_rate * grad['W1'] 
+    params['b1'] = params['b1'] - learning_rate * grad['b1'] 
+    params['W2'] = params['W2'] - learning_rate * grad['W2'] 
+    params['b2'] = params['b2'] - learning_rate * grad['b2'] 
+    if verbose:
+        print(f"W1 = {grad['W1']}")
+        print(f"b1 = {grad['b1']}")
+        print(f"W2 = {grad['W2']}")
+        print(f"b2 = {grad['b2']}")
     # *** END CODE HERE ***
 
     # This function does not return anything
     return
-
+'''
+params, cost_train, cost_dev, accuracy_train, accuracy_dev = nn_train(
+        all_data['train'], all_labels['train'], 
+        all_data['dev'], all_labels['dev'],
+        get_initial_params, forward_prop, backward_prop_func,
+        num_hidden=300, learning_rate=5, num_epochs=num_epochs, batch_size=1000
+    )
+'''
 def nn_train(
     train_data, train_labels, dev_data, dev_labels, 
     get_initial_params_func, forward_prop_func, backward_prop_func,
@@ -174,7 +297,7 @@ def nn_train(
     accuracy_dev = []
     for epoch in range(num_epochs):
         gradient_descent_epoch(train_data, train_labels, 
-            learning_rate, batch_size, params, forward_prop_func, backward_prop_func)
+            learning_rate, batch_size, params, forward_prop_func, backward_prop_func, epoch)
 
         h, output, cost = forward_prop_func(train_data, train_labels, params)
         cost_train.append(cost)
@@ -185,27 +308,51 @@ def nn_train(
 
     return params, cost_train, cost_dev, accuracy_train, accuracy_dev
 
+'''
+compute the accuracy of NN using test set
+return value is a float number < 1
+'''
 def nn_test(data, labels, params):
     h, output, cost = forward_prop(data, labels, params)
     accuracy = compute_accuracy(output, labels)
     return accuracy
-
+'''
+racial of the max number in `output` is the corresponding label
+the expression * 1. is used to ensure that the result of the division 
+is a floating-point number (float) rather than an integer (int).
+'''
 def compute_accuracy(output, labels):
     accuracy = (np.argmax(output,axis=1) == 
         np.argmax(labels,axis=1)).sum() * 1. / labels.shape[0]
     return accuracy
-
+'''
+covert vector of labels into a list of one-hot row vectors
+each row is a one-hot presentation
+'''
 def one_hot_labels(labels):
     one_hot_labels = np.zeros((labels.size, 10))
     one_hot_labels[np.arange(labels.size),labels.astype(int)] = 1
     return one_hot_labels
-
+'''
+np.loadtxt() is used to load data from a text file, with each row in the file corresponding 
+to a row in the resulting array, and each number in a row being separated by a specific 
+delimiter (which is whitespace by default).
+'''
 def read_data(images_file, labels_file):
     x = np.loadtxt(images_file, delimiter=',')
     y = np.loadtxt(labels_file, delimiter=',')
     return x, y
 
+'''
+train the model 
+save the plot
+baseline_acc = run_train_test('baseline', all_data, all_labels, backward_prop, args.num_epochs, plot)
+    reg_acc = run_train_test('regularized', all_data, all_labels, 
+        lambda a, b, c, d: backward_prop_regularized(a, b, c, d, reg=0.0001),
+        args.num_epochs, plot)
+'''
 def run_train_test(name, all_data, all_labels, backward_prop_func, num_epochs, plot=True):
+    # train the NN model
     params, cost_train, cost_dev, accuracy_train, accuracy_dev = nn_train(
         all_data['train'], all_labels['train'], 
         all_data['dev'], all_labels['dev'],
@@ -213,6 +360,20 @@ def run_train_test(name, all_data, all_labels, backward_prop_func, num_epochs, p
         num_hidden=300, learning_rate=5, num_epochs=num_epochs, batch_size=1000
     )
 
+    # save the learnt parameters (i.e., all the weights and biases)
+    # into a file, so that next time you can directly initialize the 
+    # parameters with these values from the file
+    filenames = {'W1': f"nn_w1_{name}.txt", 'b1': f"nn_b1_{name}.txt", 
+                 'W2': f"nn_w2_{name}.txt", 'b2': f"nn_b2_{name}.txt"}
+    np.savetxt(filenames['W1'], params['W1'])
+    np.savetxt(filenames['b1'], params['b1'])
+    np.savetxt(filenames['W2'], params['W2'])
+    np.savetxt(filenames['b2'], params['b2'])
+
+    # The np.arange function in NumPy is used to generate arrays containing
+    # evenly spaced values within a given interval. 
+    #When you use np.arange(num_epochs), it creates an array that starts from 0 and 
+    # ends at num_epochs - 1, with a step size of 1 by default.
     t = np.arange(num_epochs)
 
     if plot:
@@ -251,6 +412,8 @@ def main(plot=True):
     train_data, train_labels = read_data('./images_train.csv', './labels_train.csv')
     # convert labels to one-hot embeddings e_y.
     train_labels = one_hot_labels(train_labels)
+    # split 10000 samples randomly from 60000 samples in training data
+    # process shuffle, then first 10k is dev_data, later 50k is training data 
     p = np.random.permutation(60000)
     train_data = train_data[p,:]
     train_labels = train_labels[p,:]
@@ -259,7 +422,7 @@ def main(plot=True):
     dev_labels = train_labels[0:10000,:]
     train_data = train_data[10000:,:]
     train_labels = train_labels[10000:,:]
-
+    # normalization
     mean = np.mean(train_data)
     std = np.std(train_data)
     train_data = (train_data - mean) / std
