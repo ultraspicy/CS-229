@@ -1,2 +1,68 @@
 \begin{answer}
+
+(i) {\bf Prove that} for any classifier, the balanced accuracy on $\calD$ is equal to the accuracy on $\calD'$ \\
+
+For the given training set, $n_1$ is number the positive and $n_0$ is number the negative. Let's assume $A_0$ and $A_1$ for $\calD$, the balanced accuracy on $\calD$ is defined 
+\begin{equation}
+    \overline{A} \triangleq \frac{1}{2} \left(A_0+A_1\right)
+\end{equation}
+
+Each positive sample is replicated $\frac{1}{\kappa}$ times, so do the true positives. So the accuracy on $\calD '$ is defined by
+
+\begin{equation}
+    Acc_{D'} = \frac{\frac{1}{\kappa} n_1 A_1 + A_0 n_0}{\frac{1}{\kappa} n_1 + n_0}
+\end{equation}
+
+Given $\kappa = \frac{\rho}{1-\rho} = \frac{n1}{n0}$
+\begin{equation}
+    n_1 = \frac{\rho}{1 - \rho} n_0
+\end{equation}
+
+Replacing (15) in (14)
+\begin{equation}
+    Acc_D = \frac{\frac{1}{\kappa} n_1 A_1 + A_0 n_0}{\frac{1}{\kappa} n_1 + n_0} = \frac{n_0 A_1 + n_0 A_0}{2 n_0} = \frac{1}{2}(A_0 + A_1)
+\end{equation}
+
+(ii) {\bf show that} the average empirical loss for logistical regression on the dataset $\calD'$
+
+For training set $\calD '$, suppose we have $n'$ samples in total, and train data are $(x'^{(i)}, y'^{(i)})$ 
+\begin{equation}
+    J(\theta) = -\frac{1}{n'} \sum_{i=1}^{n'} \left( y'^{(i)} \log(h_{\theta}(x'^{(i)})) + (1 - y'^{(i)}) \log(1 - h_{\theta}(x'^{(i)})) \right),
+\end{equation}
+
+Continue using the previous notation, for $\calD$, n1 is number the positive and n0 is number the negative. 
+
+\begin{equation*}
+    n_1 = \kappa n_0
+\end{equation*}
+
+Split the equation (17) into positive and negative, we get
+
+\begin{equation}
+    J(\theta) = -\frac{1}{n'} \left( \sum_{\text{negatives}} \log(1 - h_{\theta}(x^{(i)})) + \frac{1}{\kappa} \sum_{\text{positives}} \log(h_{\theta}(x^{(i)})) \right).
+\end{equation}
+
+At this point, the equation shows that the only difference from the original logistic regression is we use a different weight $w^{(i)}$ on positive/negative samples. Rewrite (18)
+
+\begin{equation}
+    J(\theta) = -\frac{1}{n'} \sum_{i=1}^\nexp w^{(i)} \left(y^{(i)}\log(h_{\theta}(x^{(i)}))
++  (1 - y^{(i)})\log(1 - h_{\theta}(x^{(i)}))\right)
+\end{equation}
+
+Now lets compute $n'$ wrt $n_1$ and $n_0$. We balance the negative sample to match the number of positive samples, so $n' = 2 n_0$
+
+\begin{equation}
+    \frac{n'}{n} = \frac{2 n_0}{n_0 + n_1} = \frac{2 n_0}{n_0 + \kappa n_o} = \frac{2}{\kappa + 1}
+\end{equation}
+
+Placing (19) into (18), then (18) can be written as 
+\begin{align*}
+J(\theta) &= -\frac{1+\kappa}{2n} \sum_{i=1}^\nexp w^{(i)} \left(y^{(i)}\log(h_{\theta}(x^{(i)}))
++  (1 - y^{(i)})\log(1 - h_{\theta}(x^{(i)}))\right),
+\end{align*}
+which is what we try to prove.
 \end{answer}
+
+
+% \frac{ \frac{1}{\kappa}TP + TN }{\frac{1}{\kappa}TP + TN 
+%  + FP + \frac{1}{\kappa} FN }

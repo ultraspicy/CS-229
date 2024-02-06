@@ -1,2 +1,37 @@
 \begin{answer}
+
+From the previous sub-problem
+\begin{equation*}
+\frac{\partial}{\partial \eta} p(y; \eta) = p(y; \eta) \left( y - \frac{\partial a(\eta)}{\partial \eta} \right) 
+\end{equation*}
+
+Then
+\begin{equation*}
+\frac{\partial^2}{\partial \eta^2} p(y; \eta) = b(y)\exp(\eta y - a(\eta))(y - \frac{\partial}{\partial \eta})^2 -\frac{\partial^2}{\partial \eta^2} a(\eta) b(y)\exp(\eta y - a(\eta))
+\end{equation*}
+
+Apply $\int dy$ to both sides, left hand side will be 
+\begin{equation*}
+    \int \frac{\partial^2}{\partial \eta^2} p(y; \eta) dy = \frac{\partial^2}{\partial \eta^2} \int dy = 0
+\end{equation*}
+
+For right hand, given the fact that $\mathbb{E}[Y; \eta] = \frac{\partial}{\partial\eta}a(\eta)$ , it can be written as 
+
+\begin{equation*}
+    \int p(y; \eta)(y - \mathbb{E}[Y; \eta])^2 dy - \frac{\partial^2}{\partial \eta^2} a(\eta) \int p(y; \eta) dy
+\end{equation*}
+
+Combining left and right, and given $\int p(y; \eta) dy = 1$
+\begin{equation*}
+    \int \left( p(y; \eta)(y^2 - 2\mathbb{E}[Y; \eta] y + (\mathbb{E}[Y; \eta])^2 \right)dy = \frac{\partial^2}{\partial \eta^2} a(\eta)
+\end{equation*}
+
+AKA
+\begin{equation*}
+    \frac{\partial^2}{\partial \eta^2} a(\eta) = \int y^2 p(y; \eta)dy - (\mathbb{E}[Y; \eta])^2 = \mathbb{E}[Y^{2}; \eta] - (\mathbb{E}[Y; \eta])^2 = \text{Var}(Y; \eta)
+\end{equation*}
 \end{answer}
+
+
+% p(y; \eta)
+% \mathbb{E}[Y; \eta]

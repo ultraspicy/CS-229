@@ -1,2 +1,30 @@
 \begin{answer}
+
+
+Given 
+\begin{equation*}
+    p(y; \eta) = b(y) \exp(\eta y - a(\eta))
+\end{equation*}
+    
+The Negative-Log-Likelihood is defined as 
+\begin{equation*}
+    -\log(p(y; \eta)) = -\log(b(y)) - \eta y + a(\eta)
+\end{equation*}
+
+Replacing $\eta = \theta ^\top x $, for a training sample $(x^{(i)}, y^{(i)})$
+\begin{equation*}
+    \ell(\theta) = - \log(b(y^{(i)})) - \theta^T x^{(i)} y^{(i)} + a(\theta^T x^{(i)}) 
+\end{equation*}
+
+The gradient of $\ell(\theta)$
+\begin{equation*}
+    \nabla_{\theta} \ell(\theta) = -  x^{(i)} y^{(i)} + x^{(i)} \frac{\partial}{\partial \eta} a(\theta^T x^{(i)})
+\end{equation*}
+
+The Hessian is 
+\begin{equation*}
+    \nabla^2_{\theta} \ell(\theta) = x^{(i)} x^{(i)}^T \frac{\partial^2}{\partial \eta^2} a(\eta) 
+\end{equation*}
+
+From the previous sub problem, $\frac{\partial^2}{\partial \eta^2} a(\eta)$ is the variance of the distribution, which is always non-negative. Meanwhile, $x^{(i)} x^{(i)}^T$ is always PSD. So the Hessian of the loss w.r.t $\theta$ is PSD
 \end{answer}

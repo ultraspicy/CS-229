@@ -1,2 +1,15 @@
 \begin{answer}
+
+If the solution can avoid the 0 loss function, then model will stop endlessly scaling $\theta$ and the solution is valid. 
+
+\begin{enumerate}
+    \item  Using a different constant learning rate. No
+    \item Decreasing the learning rate over time (e.g. scaling the initial
+    learning rate by $1/t^2$, where $t$ is the number of gradient descent
+    iterations thus far). No
+    \item Linear scaling of the input features. No
+    \item Adding a regularization term $\|\theta\|_2^2$ to the loss function. Yes
+    \item Adding zero-mean Gaussian noise to the training data or labels. Yes, if size training data is big enough
+\end{enumerate}
+
 \end{answer}

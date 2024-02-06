@@ -1,2 +1,41 @@
 \begin{answer}
+
+At $t-1$, we have learned that the probability as the following
+\begin{equation*}
+  p(y; \lambda^{[t-1]}) = \frac{e^{-\lambda^{[t-1]}}\lambda^{[t-1]}^y}{y!}.
+\end{equation*}
+
+Then the log likelihood is the following
+
+\begin{equation*}
+    ln(p(y; \lambda)) = ln\left( \frac{e^{-\lambda}\lambda^y}{y!} \right) = yln(\lambda) - \lambda - ln(y!)
+\end{equation*}
+
+where given $\theta$ is the vector of model parameters we want to train to minimize the loss, then
+\begin{equation}
+    e^{\theta^\top x} = \lambda
+\end{equation}
+
+For a specific training example $x^{(i)}$,
+\begin{equation}
+    \frac{\partial}{\partial \theta_j} \lambda = x_j
+\end{equation}
+
+
+and
+\begin{equation}
+     \frac{\partial}{\partial \theta_j} y ln(\lambda) = y\frac{1}{\lambda} x_j
+\end{equation}
+
+Given the above equation, we can rewrite
+\begin{equation}
+    \frac{\partial}{\partial \theta_j}ln(p(y; \lambda)) = y\frac{1}{\lambda} x_j - x_j
+\end{equation}
+
+Using $\alpha$ as the learning rate, then rule for updating gradient ascent is 
+\begin{equation}
+    \theta^{[t]} = \theta^{[t - 1]} + \alpha \left( y^{(i)}\frac{1}{e^{\theta^\top x^{(i)}}} x^{(i)}_j - x^{(i)}_j \right)
+\end{equation}
+
+
 \end{answer}

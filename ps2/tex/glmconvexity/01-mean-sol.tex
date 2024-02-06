@@ -1,2 +1,34 @@
 \begin{answer}
+
+Given exponential family distribution as follows
+\begin{equation*}
+p(y ; \eta) = b(y)\exp(\eta y - a(\eta)).
+\end{equation*}
+
+Apply the hint
+\begin{equation*}
+\int \frac{\partial}{\partial \eta} p(y; \eta)dy = \frac{\partial}{\partial \eta} \int p(y; \eta)dy = \frac{\partial}{\partial \eta} 1 = 0
+\end{equation*}
+
+then 
+
+\begin{equation*}
+\frac{\partial}{\partial \eta} p(y; \eta) 
+= b(y) \frac{\partial}{\partial \eta} \left( \exp(\eta y - a(\eta)) \right) = b(y) \exp(\eta y - a(\eta)) \left( y - \frac{\partial a(\eta)}{\partial \eta} \right) = p(y; \eta) \left( y - \frac{\partial a(\eta)}{\partial \eta} \right) 
+\end{equation*}
+        
+
+Substituting $\frac{\partial}{\partial \eta} p(y; \eta)$ back into the integral, we get:
+
+\begin{equation*}
+\int p(y; \eta) \left( y - \frac{\partial a(\eta)}{\partial \eta} \right) dy = 0.
+\end{equation*}
+
+which is equivalent to 
+\begin{equation*}
+    \int p(y; \eta)ydy = \frac{\partial a(\eta)}{\partial \eta} \int p(y; \eta)dy = \frac{\partial a(\eta)}{\partial \eta}
+\end{equation*}
+
+The left hand side of the above equation is the definition of $\mathbb{E}[Y; \eta]$
+
 \end{answer}

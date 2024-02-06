@@ -1,3 +1,33 @@
-
 \begin{answer}
+
+(i). Show that for any dataset with ρ fraction of positive examples and 1 − ρ frac-
+tion of negative examples, there exists a (trivial) classifier with accuracy at least 1 − ρ \\
+The classifier can classify all sample as negative, so $1 - \rho$ samples are classified correctly \\
+
+(ii). Given the definiton of $\rho$ is fraction positive examples, the full set of example is defined as $TP + TN + FP + FN$ and positive example is $TP + FN$, So
+\begin{equation*}
+    \rho = \frac{TP + FN}{TP + TN + FP + FN}
+\end{equation*}
+
+Similarly, 
+\begin{equation*}
+    1- \rho = \frac{TN + FP}{TP + TN + FP + FN}
+\end{equation*}
+
+And then 
+\begin{equation*}
+    \rho \cdot A_1 + (1-\rho)A_0 = \frac{TP + FN}{TP + TN + FP + FN} \cdot \frac{TP}{TP + FN} + \frac{TN + FP}{TP + TN + FP + FN} \cdot \frac{TN}{TN + FP}
+\end{equation*}
+
+Furthur 
+\begin{equation*}
+    \rho \cdot A_1 + (1-\rho)A_0 = \frac{TP + TN}{TP + TN + FP + FN}
+\end{equation*}
+
+which is the definition of A \\
+
+(iii) For the trivial classifier, $A_0 = 1$ and $A_1 = 0$
+\begin{align}
+\overline{A} \triangleq \frac{1}{2} \left(A_0+A_1\right) = \frac{1}{2}
+\end{align}
 \end{answer}

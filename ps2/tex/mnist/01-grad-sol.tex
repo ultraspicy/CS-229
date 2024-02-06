@@ -1,4 +1,47 @@
 \begin{answer}
+
+The cross-entropy loss for a single example, when the true label $y$
+ is represented as a one-hot encoded vector $e_y\in \Re^k$, we get 
+\begin{equation}
+    \ell_{\textup{CE}}(t, y) = -\sum_{j=1}^{k} e_{yj} \log(p_j) = - \log(p_y)
+\end{equation}
+
+Using the chain rule, we have the following
+\begin{equation}
+    \frac{\partial \ell_{\textup{CE}}(t, y)}{\partial t_j} = \frac{\partial}{\partial t_j} (-\log(p_y)) = -\frac{1}{p_y} \cdot \frac{\partial p_y}{\partial t_j}
+\end{equation}
+
+From the definition of  $p = \softmax(t)$, for certain $y$, we have 
+\begin{equation}
+    p_y = \frac{e^{t_y}}{\sum_{j=1}^{k} e^{t_j}} 
+\end{equation}
+
+When $j =y$,
+\begin{equation}
+    \frac{\partial}{\partial t_j} \left( \frac{e^{t_y}}{\sum_{j=1}^{k} e^{t_j}}  \right) = \frac{e^{t_y} \sum_{s=1}^{k} e^{t_s} - e^{t_y} e^{t_y}}{\left(\sum_{s=1}^{k} e^{t_s}\right)^2} = p_y (1 - p_y)
+\end{equation}
+
+When $j \neq y$
+\begin{equation}
+    \frac{\partial}{\partial t_j} \left( \frac{e^{t_y}}{\sum_{j=1}^{k} e^{t_j}}  \right) =- \frac{e^{t_y} e^{t_j}}{\left(\sum_{s=1}^{k}  = e^{t_s}\right)^2} = - p_y p_j
+\end{equation}
+
+Replace (26) (27) into (24), we get
+
+When $j =y$,
+\begin{equation}
+    \frac{\partial \ell_{\textup{CE}}(t, y)}{\partial t_j} = p_y - 1
+\end{equation}
+
+When $j \neq y$
+\begin{equation}
+    \frac{\partial \ell_{\textup{CE}}(t, y)}{\partial t_j} = p_j
+\end{equation}
+
+(28) and (29) shows that 
+\begin{align}
+\frac{\partial \ell_\textup{CE}(t, y)}{\partial t} = p - e_y \in \Re^k,
+\end{align}
 \end{answer}
    
   

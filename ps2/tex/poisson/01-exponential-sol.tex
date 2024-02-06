@@ -1,2 +1,31 @@
 \begin{answer}
+
+An exponential family distribution is one whose probability density
+can be represented as
+
+\begin{equation*}
+    p(y; \eta) = b(y)\exp(\eta^TT(y) - a(\eta))
+\end{equation*}
+
+Then 
+\begin{equation*}
+   ln\left( p(y; \eta) \right) = ln\left(b(y)\right) + \eta^TT(y) - a(\eta)
+\end{equation*}
+
+Apply $ln$ to Poisson distribution, we get 
+
+\begin{equation*}
+  ln\left(p(y; \lambda)\right) =  ln\left( \frac{e^{-\lambda}\lambda^y}{y!} \right) = yln(\lambda) - \lambda - ln(y!)
+\end{equation*}
+
+Then we get 
+\begin{align*}
+  b(y) = \frac{1}{y!} \\
+  \eta = ln(\lambda) \\
+  T(y) = y \\
+  a(\eta) = \lambda
+\end{align*}
+
+
+
 \end{answer}
