@@ -113,7 +113,6 @@ def forward_prop(data, one_hot_labels, params, verbose = False):
     # probability_of_classes has dimension of (batch_size, # of classes)
     # each row is a row vector, each element of it is a probability of corresponding class
     probability_of_classes = softmax(z2.T) # (1000, 10)
-    
     J = - np.mean(np.sum(one_hot_labels * np.log(probability_of_classes), axis = 1))
 
     if verbose:
@@ -121,7 +120,8 @@ def forward_prop(data, one_hot_labels, params, verbose = False):
         print(f"z2.shape = {z2.shape}")
         # print(f"z2 = {z2}")
         print(f"probability_of_classes = {probability_of_classes.shape}")
-        print(f"J = {J}")
+        
+    # print(f"J = {J}")
     return a1, probability_of_classes, J
     # *** END CODE HERE ***
 
@@ -150,6 +150,7 @@ def backward_prop(data, one_hot_labels, params, forward_prop_func, verbose = Fal
     b1 = params['b1']
     W2 = params['W2']
     b2 = params['b2']
+    batch_size = data.shape[0]
     # get all specs of forward propagation 
     a1, h, loss = forward_prop_func(data, one_hot_labels, params)
     # z_2 is the score vector that has dimension of (# of classes, batch_size)
@@ -169,9 +170,9 @@ def backward_prop(data, one_hot_labels, params, forward_prop_func, verbose = Fal
     #     # print(f"patial_loss_over_z_2[i, :] = {patial_loss_over_z_2[i, :].shape}")
     #     patial_loss_over_w_2 = patial_loss_over_w_2 + a1[:, i].reshape((-1, 1)) @ patial_loss_over_z_2[i, :].reshape((1, -1))
     # patial_loss_over_w_2 = 1 / num_of_sample * patial_loss_over_w_2
-    patial_loss_over_w_2 = a1 @ patial_loss_over_z_2 / 1000 # 300, 10
+    patial_loss_over_w_2 = a1 @ patial_loss_over_z_2 / batch_size # 300, 10
     ### =================================================================
-    patial_loss_over_b_2 = np.sum(patial_loss_over_z_2, axis = 0) / 1000 # (10, )
+    patial_loss_over_b_2 = np.sum(patial_loss_over_z_2, axis = 0) / batch_size # (10, )
     patial_loss_over_z_1 = a1 * (1 - a1) * patial_loss_over_a_1
     # print(f"patial_loss_over_z_1.shape = {patial_loss_over_z_1.shape}") # 300, 1000
     ### =================================================================
@@ -179,10 +180,10 @@ def backward_prop(data, one_hot_labels, params, forward_prop_func, verbose = Fal
     # for i in range(num_of_sample):
     #     patial_loss_over_w_1 = patial_loss_over_w_1 + data[i,:].reshape((-1, 1)) @ patial_loss_over_z_1[:, i].reshape((1, -1))
     # patial_loss_over_w_1 = 1 / num_of_sample * patial_loss_over_w_1
-    patial_loss_over_w_1 = patial_loss_over_z_1 @ data / 1000
+    patial_loss_over_w_1 = patial_loss_over_z_1 @ data / batch_size
     # print(f"patial_loss_over_w_1.shape = {patial_loss_over_w_1.shape}") # 300, 784
     ### =================================================================
-    patial_loss_over_b_1 = np.sum(patial_loss_over_z_1, axis = 1)  / 1000# (300,)
+    patial_loss_over_b_1 = np.sum(patial_loss_over_z_1, axis = 1)  / batch_size # (300,)
     
     if verbose:
         # print(f"a1 = {a1}") # 1000, 10
@@ -256,15 +257,21 @@ def gradient_descent_epoch(train_data,
 
     # *** START CODE HERE ***
     # create mini-batches sequentially
-    train_data = train_data[epoch * batch_size:(epoch + 1) * batch_size,:]
-    one_hot_train_labels = one_hot_train_labels[epoch * batch_size:(epoch + 1) * batch_size,:]
-    # run backward propagation to get the gradiant
-    grad = backward_prop_func(train_data, one_hot_train_labels, params, forward_prop_func)
-    ## update gradient
-    params['W1'] = params['W1'] - learning_rate * grad['W1'] 
-    params['b1'] = params['b1'] - learning_rate * grad['b1'] 
-    params['W2'] = params['W2'] - learning_rate * grad['W2'] 
-    params['b2'] = params['b2'] - learning_rate * grad['b2'] 
+    iteration =  train_data.shape[0] // batch_size
+    for i in range(iteration):
+        train_data_mini_batch = train_data[i*batch_size : (i + 1)*batch_size,:]
+        one_hot_train_labels_mini_batch = one_hot_train_labels[i*batch_size : (i + 1)*batch_size,:]
+        # run backward propagation to get the gradiant
+        grad = backward_prop_func(train_data_mini_batch, 
+                                  one_hot_train_labels_mini_batch, 
+                                  params, 
+                                  forward_prop_func)
+        ## update gradient
+        params['W1'] = params['W1'] - learning_rate * grad['W1'] 
+        params['b1'] = params['b1'] - learning_rate * grad['b1'] 
+        params['W2'] = params['W2'] - learning_rate * grad['W2'] 
+        params['b2'] = params['b2'] - learning_rate * grad['b2'] 
+    # print out the result  
     if verbose:
         print(f"W1 = {grad['W1']}")
         print(f"b1 = {grad['b1']}")
