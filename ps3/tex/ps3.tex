@@ -1,0 +1,65 @@
+\def\qtr{Winter 2024}
+\def\due{Wednesday, February 21 at 11:59 pm}
+\def\edstem{\url{https://edstem.org/us/courses/51342/discussion/}}
+\def\psetnum{3 }
+
+%%% Change the following flag to toggle between questions or solutions
+\ifdefined\solutions {} \else \def\solutions{0} \fi
+
+\input{macros.tex}
+
+\def\shownotes{0}  %set 1 to show author notes
+\ifnum\shownotes=1
+\newcommand{\authnote}[2]{[#1: #2]}
+\else
+\newcommand{\authnote}[2]{}
+\fi
+
+\newcommand{\tnote}[1]{{\color{blue}\authnote{TM}{#1}}}
+\newcommand{\fk}[1]{{\color{purple}{[FK:#1]}}}
+\newcommand{\notes}[1]{{\color{blue} Note:} \textit{#1} \newline}
+
+
+\usepackage{dsfont}
+
+\begin{document}
+
+\pagestyle{myheadings} \markboth{}{CS229 Problem Set \#\psetnum}
+
+\ifnum\solutions=1{
+{\huge\noindent CS 229, \qtr\\
+Problem Set \#\psetnum Solutions}\\\\
+YOUR NAME HERE (\texttt{YOUR SUNET HERE})
+} \else {\huge
+\noindent CS 229, \qtr\\
+Problem Set \#\psetnum
+} \fi
+
+\ruleskip
+
+{\bf Due {\due } on Gradescope.}
+
+\medskip
+
+\input{00-instructions/00-main}
+
+\begin{enumerate}[wide, labelwidth=!, labelindent=0pt]
+
+\clearpage
+\input{decision_trees_general/00-main}
+
+\clearpage
+\input{decision_trees/00-main}
+
+\clearpage
+\input{adaboost/00-main}
+
+\clearpage
+\input{adaboost_performance/00-main}
+
+\clearpage
+\input{simple_nn/00-main}
+
+\end{enumerate}
+
+\end{document}

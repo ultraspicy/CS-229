@@ -1,0 +1,59 @@
+\item \points{35} {\bf Decision trees}
+
+Consider the problem of predicting if a person has a college degree based on age and salary. Table~\ref{tab:decisionTree} contains training data for 10 individuals. 
+\begin{table}[h!]
+	\centering
+	\begin{tabular}{c|c|c}
+		\hline
+		Age & Salary (\$1k) &  College degree\\\hline
+		24& 40 &  Yes\\
+		53& 52 &  No\\
+		23&  25&  No\\
+		25&  77&  Yes\\
+		32&  48&  Yes\\
+		52&  110&  Yes\\
+		22&  38&  Yes\\
+		43&  44&  No\\
+		52&  27&  No\\
+		48&  65& Yes\\ \hline
+	\end{tabular}
+	\caption{Training data for predicting college degree.}
+	\label{tab:decisionTree}
+\end{table}
+
+For questions below, the answers may not be unique. Any plausible solution is acceptable. Keep two significant decimals in part (a) and (c).
+
+
+\begin{enumerate}
+    \input{decision_trees_general/01-children}
+    
+	\ifnum\solutions=1 {
+	\input{decision_trees_general/01-children-sol}
+        } \fi
+        
+    \input{decision_trees_general/05-implementation}
+    
+	\ifnum\solutions=1 {
+	\input{decision_trees_general/05-implementation-sol}
+        } \fi
+    
+    \input{decision_trees_general/02-cases}
+    
+	\ifnum\solutions=1 {
+	\input{decision_trees_general/02-cases-sol}
+        } \fi
+        
+    \input{decision_trees_general/03-misclas}
+    
+	\ifnum\solutions=1 {
+	\input{decision_trees_general/03-misclas-sol}
+        } \fi
+        
+    \input{decision_trees_general/04-avg-var}
+    
+	\ifnum\solutions=1 {
+	\input{decision_trees_general/04-avg-var-sol}
+        } \fi
+        
+        
+\end{enumerate}

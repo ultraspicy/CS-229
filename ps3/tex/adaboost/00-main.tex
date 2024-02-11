@@ -1,0 +1,35 @@
+\newcommand{\vect}[1]{\mathbf{#1}}
+
+\item \points{12} {\bf AdaBoost}
+
+Consider building an ensemble of decision stumps $f_t$ with the AdaBoost algorithm,
+$$F(x) = \text{sign}\Big(\sum_{t=1}^T \hat{w}_t f_t(x)\Big).$$
+Figure~\ref{fig:adaboost} displays a 2-dimensional training dataset, as well as the first stump chosen. A stump predicts binary $+1 / -1$ values, and depends only on one coordinate value (the split point). The little arrow indicates the positive side where the stump predicts $+1$. All points start with uniform weights.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.45\linewidth]{adaboost/fig6-decision-boundary.png}
+	\vspace{-0.1in}
+	\caption{2-dimensional labeled data, where `+' corresponds to class $y=+1$ and `-' corresponds to class $y = -1$. The decision boundary for the first decision stump is shown.  The arrow points in the positive direction from this decision boundary.}
+	\label{fig:adaboost}
+\end{figure}
+
+\begin{enumerate}
+    \input{adaboost/01-children}
+    
+	\ifnum\solutions=1 {
+	\input{adaboost/01-children-sol}
+        } \fi
+        
+    \input{adaboost/02-cases}
+    
+	\ifnum\solutions=1 {
+	\input{adaboost/02-cases-sol}
+        } \fi
+        
+    \input{adaboost/03-misclas}
+    
+	\ifnum\solutions=1 {
+	\input{adaboost/03-misclas-sol}
+        } \fi
+        
+\end{enumerate}

@@ -1,0 +1,25 @@
+\item \subquestionpoints{6} 
+	\vspace{0.2in}
+\begin{algorithmic}[1]
+    \Function{DecisionTree}{$Data$}
+        \If{all points in $Data$ have same label $y$ or max height reached}
+            \State \textbf{return} Leaf(majority vote for $y$ in $Data$)
+        \Else
+            \For{each feature $h_i$}
+                \For{each value $v$ of feature $h_i$ in $Data$}
+                    \State $Data_1,\ Data_2$ = Split($Data,\ h_i \leq v$)
+                    \State $Error_{i, v}$ = ClassificationError($Data_1$) + ClassificationError($Data_2$)
+                \EndFor
+            \EndFor
+            \State $h^*, v^*$ = choose feature $h_i$ and split $v$ that has smallest $Error_{i, v}$
+            \State $Data_1,\ Data_2$ = Split($Data,\ h^* \leq v^*$)
+            \State \textbf{return} Branch($h^* \leq v^*$, DecisionTree($Data_1$), DecisionTree($Data_2$))
+        \EndIf
+    \EndFunction
+\end{algorithmic}
+	
+Now imagine we want to predict a person’s salary from their age and whether or not they have a college degree, which is a regression task.  Being the lazy coder you are, you decide to reuse your existing classification tree code above, modifying as few lines as possible to implement a regression tree.
+\begin{enumerate}
+	\item[(i)] [3 points] Recall that at a leaf node, the decision tree for classification returns the majority vote of training datapoints at that leaf.  For regression, what would an appropriate choice of output be?  Provide the line of code that needs to be modified and write psuedocode for the suggested modification.
+	\item[(ii)] [3 points] Recall that the decision tree for classification chooses the split that minimizes classification error. For regression, what would we aim to minimize?  Provide the line of code that needs to be modified and write psuedocode for the suggested modification.
+\end{enumerate}

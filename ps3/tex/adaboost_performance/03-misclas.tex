@@ -1,0 +1,27 @@
+\item \subquestionpoints{9}  We showed above that training error is bounded above by $\prod_{t=1}^T Z_t$. At step $t$ the values $Z_1$, $Z_2$, $\ldots$, $Z_{t-1}$ are already fixed therefore at step $t$ we can choose $\alpha_t$ to minimize $Z_t$. Let
+		\begin{align*}
+			\varepsilon_t 
+			= \sum_{i=1}^n \alpha_{i, t} 1_{\{f_t(x_i) \neq y_i\}}
+		\end{align*}
+	be the weighted training error for the weak classifier $f_t(x)$. Then we can re-write the formula for $Z_t$ as
+	\begin{align*}
+		Z_t = (1-\varepsilon_t) \exp(-\hat{w}_t) + \varepsilon_t \exp(\hat{w}_t).
+	\end{align*}
+ \begin{enumerate}
+ 	\item [(i)] [3 points] First find the value of  $\hat{w}_t$ that minimizes $Z_t$. Then show that the corresponding optimal value is
+	\begin{align*}
+		Z^{\text{opt}}_t
+		= 2 \sqrt{\varepsilon_t (1-\varepsilon_t)}.
+	\end{align*}
+	\item [(ii)] [3 points] Assume we choose $Z_t$ this way. Then re-write $\varepsilon_t = 1/2 - \gamma_t$, where $\gamma_t > 0$ implies better than random and $\gamma_t < 0$ implies worse than random. Then show that
+	\begin{align*}
+		Z_t \le \exp(-2 \gamma_t^2).
+	\end{align*}
+	(You may want to use the fact that $\log(1 - x) \le  -x$ for $0 \le  x < 1$.)
+	\item [(iii)] [3 points] Finally, show that if each classifier is better than random, i.e.,  $\gamma_t > \gamma$ for all $t$ and $\gamma > 0$, then
+	\begin{align*}
+			\varepsilon_{\text{training}}
+		\le \exp(-2T \gamma^2),
+	\end{align*}
+	which shows that the training error can be made arbitrarily small with enough steps.
+ \end{enumerate}

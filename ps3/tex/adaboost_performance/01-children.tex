@@ -1,0 +1,18 @@
+\item \subquestionpoints{3} Given a set of $n$ observations $(x_i, y_i)$ where $y_i$ is the label $y_i \in \{-1,1\}$, let $f_t(x)$ be the weak classifier at step $t$ and let $\hat{w}_t$ be its weight. First we note that the final classifier after $T$ steps is defined as
+		\begin{align*}
+			F(x) = \text{sign} \left\{\sum_{t=1}^T \hat{w}_t f_t(x) \right\}
+			= \text{sign}\{f(x)\},
+		\end{align*}
+	where
+	\begin{align*}
+		f(x) = \sum_{t=1}^T \hat{w}_t f_t(x).
+	\end{align*}
+	We can assume that $f(x)$ is never exactly zero.
+
+	Show that
+	\begin{align*}
+		\varepsilon_{\text{training}}
+		:= \frac{1}{n} \sum_{i=1}^n 1_{\{F(x_i) \neq y_i\}}
+		\le \frac{1}{n} \sum_{i=1}^n \exp(-f(x_i) y_i),
+	\end{align*}
+	where $1_{\{F(x_i) \neq y_i\}}$ is $1$ if $F(x_i) \neq y_i$ and $0$ otherwise.

@@ -1,0 +1,14 @@
+\item \subquestionpoints{8} The weight for each data point $i$ at step $t+1$ can be defined recursively by
+ 		\begin{align*}
+ 			\alpha_{i, (t+1)}
+ 			= \frac{\alpha_{i, t} \exp(-\hat{w}_t f_t(x_i) y_i)}{Z_t},
+ 		\end{align*}
+ 	where $Z_t$ is a normalizing constant ensuring the weights sum to $1$
+ 	\begin{align*}
+ 		Z_t = \sum_{i=1}^n \alpha_{i, t} \exp(-\hat{w}_t f_t(x_i) y_i).
+ 	\end{align*}
+ 
+ Show that
+ \begin{align*}
+ 	\frac{1}{n} \sum_{i=1}^n \exp(-f(x_i)y_i)= \prod_{t=1}^T Z_t. 
+ \end{align*}
