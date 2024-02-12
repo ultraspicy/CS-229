@@ -37,7 +37,20 @@ def optimal_step_weights():
 
     # *** START CODE HERE ***
     # *** END CODE HERE ***
+    w['hidden_layer_0_1'] = -4
+    w['hidden_layer_1_1'] = 1
+    w['hidden_layer_2_1'] = 1
+    w['hidden_layer_0_2'] = 0.5
+    w['hidden_layer_1_2'] = 0
+    w['hidden_layer_2_2'] = -1
+    w['hidden_layer_0_3'] = 0.5
+    w['hidden_layer_1_3'] = -1
+    w['hidden_layer_2_3'] = 0
 
+    w['output_layer_0'] = 0
+    w['output_layer_1'] = 1
+    w['output_layer_2'] = 1
+    w['output_layer_3'] = 1
     return w
 
 def optimal_linear_weights():
@@ -55,6 +68,7 @@ def optimal_linear_weights():
     return w
 
 def compute_predictions(X, weights, step_fn=True):
+    # print(f"X = {X.shape}") #(1, 3)
     def get(names):
         return [weights[name] for name in names]
 
@@ -64,21 +78,27 @@ def compute_predictions(X, weights, step_fn=True):
     wo = get(['output_layer_0', 'output_layer_1', 'output_layer_2', 'output_layer_3'])
 
     wo = np.array(wo)
+    # print(f"wo.shape = {wo.shape}") # wo.shape = (4,)
 
     W1 = np.array([w11, w12, w13])
+    # print(f"W1 = {W1}")
 
     if step_fn:
         h = (np.matmul(W1, X.transpose()) >= -1e-10)
+        # print(f"h = {h}")
     else:
         h = np.matmul(W1, X.transpose())
 
     H = np.concatenate((np.ones((1, X.shape[0])), h), axis=0)
+    # print(f"H = {H}")
     o = (np.matmul(H.transpose(), wo) >= 1e-10)
+    # print(f"o = {o}")
 
     return o
 
 if __name__ == "__main__":
     x, y = util.load_dataset('train.csv', add_intercept=True)
+    print(f"{x}")
 
     step_weights = optimal_step_weights()
     step_predict = lambda data: compute_predictions(data, step_weights, step_fn=True)

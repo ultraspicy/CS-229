@@ -47,6 +47,7 @@ def load_dataset(csv_path, label_col='y', add_intercept=False):
 
     # Load features and labels
     x_cols = [i for i in range(len(headers)) if headers[i].startswith('x')]
+    print(f"x_cols = {x_cols}")
     l_cols = [i for i in range(len(headers)) if headers[i] == label_col]
     inputs = np.loadtxt(csv_path, delimiter=',', skiprows=1, usecols=x_cols)
     labels = np.loadtxt(csv_path, delimiter=',', skiprows=1, usecols=l_cols)
