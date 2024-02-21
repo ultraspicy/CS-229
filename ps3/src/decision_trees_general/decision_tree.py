@@ -52,6 +52,7 @@ class DecisionTree:
         # Calculate the parent's loss to compare with splits
         best_loss = np.inf
         for feature_idx in range(self.n_features_):
+            # print("=================================")
             # print(f"{X[:, feature_idx]}")
             thresholds = self.find_midpoints(np.unique(X[:, feature_idx]))
             for threshold in thresholds:
@@ -61,19 +62,23 @@ class DecisionTree:
         
                 # indices that greater than the threshold
                 right_indices = [i for i, x in enumerate(X[:, feature_idx]) if x > threshold]
-            
+                # print(f"{left_indices}")
+                # print(f"{right_indices}")
+                # print("=================================")
                 left_loss = self._misclassification_loss(y[left_indices])
                 right_loss = self._misclassification_loss(y[right_indices])
                 total_loss = left_loss + right_loss
                 
                 # all classes are prefectly split
                 if total_loss == 0:
+                    # print(f"best_loss = 0")
                     return None, None
                 # there are still some loss
                 if total_loss < best_loss:
                     best_idx, best_thr = feature_idx, threshold
                     best_loss = total_loss
         # *** END YOUR CODE ***
+        # print(f"best_loss = {best_loss}")
         # Return the best split with the feature index and threshold.           
         return best_idx, best_thr
         
@@ -89,6 +94,7 @@ class DecisionTree:
             # *** START YOUR CODE ***
             # print(f"================================================")
             best_idx, best_thr = self._best_split(X, y)
+            # print(f"depth = {depth}")
             # print(f"best_idx = {best_idx}")
             # print(f"best_thr = {best_thr}")
             # if best_idx is None, we already get 0 loss
@@ -99,7 +105,8 @@ class DecisionTree:
             right_indices = [i for i, x in enumerate(X[:, best_idx]) if x > best_thr]
             
             # print(f"X[left_indices,:] {X[left_indices,:]}")
-            # print(f"X[right_indices,:] {X[right_indices,:]}")       
+            # print(f"X[right_indices,:] {X[right_indices,:]}") 
+            # print(f"depth = {depth}")      
             left_subtree = self._grow_tree(X[left_indices,:], y[left_indices], depth + 1)
             right_subtree = self._grow_tree(X[right_indices,:], y[right_indices], depth + 1)
             root_node.feature_index = best_idx
