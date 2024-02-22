@@ -1,2 +1,42 @@
-\begin{answer}{
+\begin{answer}
+
+Let the parent node $R_p$ have $N_p$ instances in total, with $N_{p1}$ instances of class 1 and $N_{p2}$ instances of class 2, where $N_{p1} > N_{p2}$
+
+The misclassification loss of the parent node is:
+
+\begin{equation}
+    M(R_p) = 1 - \frac{N_{p1}}{N_p}
+\end{equation}
+
+After the Split, lets assume
+\begin{itemize}
+    \item \(R_1\) contains \(N_1\) instances, with \(N_{11}\) of class 1 and \(N_{12}\) of class 2.
+    \item \(R_2\) contains \(N_2\) instances, with \(N_{21}\) of class 1 and \(N_{22}\) of class 2.
+\end{itemize}
+
+The weighted misclassification loss after the split is calculated as:
+
+\begin{equation}
+M_{\text{weighted}} = \frac{\lvert R_1 \rvert L(R_1) + \lvert R_2 \rvert L(R_2)}{\lvert R_1 \rvert + \lvert R_2 \rvert} = \frac{N_1 M(R_1) + N_2 M(R_2)}{N_1 + N_2} 
+\end{equation}
+
+And 
+\begin{equation}
+M(R_1) = 1 - \frac{\max(N_{11}, N_{12})}{N_1}
+\end{equation}
+\begin{equation}
+M(R_2) = 1 - \frac{\max(N_{21}, N_{22})}{N_2}
+\end{equation}
+
+Replace (9), (10) into (8), and replace $M_{\text{weighted}}$ with (7), we got the the following 
+\begin{equation}
+\frac{N_1}{N_P}(1 - \frac{\max(N_{11}, N_{12})}{N_1}) + \frac{N_2}{N_P}(1 - \frac{\max(N_{21}, N_{22})}{N_2}) = 1 - \frac{N_{p1}}{N_p}
+\end{equation}
+
+Or equivalently, 
+\begin{equation}
+    N_{p1} = \max(N_{11}, N_{12}) + \max(N_{21}, N_{22})
+\end{equation}
+
+so as long as the sum of number of the most frequent classes in two children equals the number of most frequent class in parent, loss will be the same.
 \end{answer}

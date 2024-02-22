@@ -1,2 +1,55 @@
-\begin{answer}{
+\begin{answer}
+
+(i)
+Given 
+\begin{equation}
+   Z_t = (1-\varepsilon_t) \exp(-\hat{w}_t) + \varepsilon_t \exp(\hat{w}_t)
+\end{equation}
+
+Compute the partial derivative wrt $\hat w_t$ 
+\begin{equation}
+    \frac{\partial Z_t}{\partial \hat{w}_t} = -(1 - \epsilon_t) \exp(-\hat{w}_t) + \epsilon_t \exp(\hat{w}_t)
+\end{equation}
+
+Let $\frac{\partial Z_t}{\partial \hat{w}_t} = 0$, we can get the solve for $\hat{w}_t$
+\begin{equation}
+    \hat{w}_t = ln(\frac{1 - \epsilon_t}{\epsilon_t})^{\frac{1}{2}} 
+\end{equation}
+
+Replace (27) back into (25)
+\begin{equation}
+    Z_t^{opt} = (1-\varepsilon_t) \exp(-ln(\frac{1 - \epsilon_t}{\epsilon_t})^{\frac{1}{2}} ) + \varepsilon_t \exp(ln(\frac{1 - \epsilon_t}{\epsilon_t})^{\frac{1}{2}} ) = 2 \sqrt{\varepsilon_t (1-\varepsilon_t)}.
+\end{equation} \\
+
+(ii)
+Re-write $\epsilon_t = \frac{1}{2} - \gamma_t$ and substitute this into 
+(28):
+
+\begin{equation}
+   Z_t^{opt} = 2\sqrt{\left(\frac{1}{2} - \gamma_t\right)\left(\frac{1}{2} + \gamma_t\right)} = \sqrt{1 - 4\gamma_t^2}
+\end{equation}
+
+Using the fact that $\log(1 - x) \leq -x$ for $0 \leq x < 1$ :
+\begin{equation}
+    \log(Z_t^{opt}) = \log\left(\sqrt{1 - 4\gamma_t^2}\right) \le \frac{1}{2}(-4 \gamma_t^2) = -2\gamma_t^2
+\end{equation}
+
+
+Exponentiating both sides gives us:
+\begin{equation}
+    Z_t^{opt} \leq \exp(-2\gamma_t^2) 
+\end{equation}
+
+(iii)
+From part (ii), we have $Z_t \leq \exp(-2\gamma_t^2)$. If $\gamma_t > \gamma$ for all $t$, then:
+\begin{equation}
+    Z_t \leq \exp(-2\gamma^2)    
+\end{equation}
+
+
+By previous problem (a) and (b), $\varepsilon_{\text{training}}$ is bounded above by $\prod_{t=1}^{T} Z_t$, we have:
+\[ \varepsilon_{\text{training}} \leq \prod_{t=1}^{T} Z_t \leq \prod_{t=1}^{T} \exp(-2\gamma^2)  = \exp(-2T \gamma^2) \]
+
+This shows that the training error decreases exponentially with the number of iterations $T$, and as long as each weak classifier is consistently better than random guessing (with $\gamma_t > \gamma > 0$), the training error can be made arbitrarily small with enough boosting steps.
+
 \end{answer}

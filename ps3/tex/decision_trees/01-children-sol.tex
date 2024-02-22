@@ -1,2 +1,31 @@
 \begin{answer}
+
+Given 
+\begin{align*}
+    G(R_m) = G(\vec{p}_m) = \sum_{k=1}^K p_{mk} (1 - p_{mk})
+\end{align*}
+
+We have 
+\begin{equation}
+    \frac{\partial}{\partial p_{mi}} G(R_m)= 1 - 2p_{mi}
+\end{equation}
+
+\begin{equation}
+    \frac{\partial ^2}{\partial p_{mi}^2} G(R_m)= -2
+\end{equation}
+
+So $G(R_m)$ is strictly concave. For binary classification, a parent node with a proportion $p$ of class 1, thus the Gini loss is $G(p)$. After a split, we have two child nodes with proportions $p_1$ and $p_2$ for class 1, and size of region $\lvert R_1 \rvert$ and $\lvert R_2 \rvert$ respectively. 
+
+Let 
+\begin{equation}
+    t = \frac{\lvert R_1 \rvert}{\lvert R_1 \rvert + \lvert R_2 \rvert}, \text{then 
+ } 1- t = \frac{\lvert R_2 \rvert}{\lvert R_1 \rvert + \lvert R_2 \rvert}
+\end{equation}
+
+then 
+\begin{equation}
+t G(p_1) + (1-t) G(p_2) \le G(tp_1 + (1-t)p_2) = G(p)
+\end{equation}
+
+The first inequity in (5) is due to concave function $G()$, the second equation is due to $p$ is the weighted average of $p_1$ and $p_2$. And (5) just shows that the weighted Gini loss of the children can not exceed that of the parent
 \end{answer}

@@ -1,2 +1,18 @@
 \begin{answer}
+
+A recap of the neural network as the following steps
+    \begin{enumerate}
+        \item input $x^{(i)} \in \mathbb{R}^{2 \times 1}$, multiplied by $W^{[1]}^\top$, where $W^{[1]} \in \mathbb{R}^{2 \times 3}$. Let $z^{(i)} = W^{[1]}^\top x^{(i)}$
+        \item Apply the sigmoid activation, $a = \sigma(z) \in \mathbb{R}^{3 \times 1}$
+        \item input $a^{(i)} \in \mathbb{R}^{3 \times 1}$, multiplied by $W^{[2]}^\top$, where $W^{[2]} \in \mathbb{R}^{3 \times 1}$. Let $o^{(i)} = W^{[2]}^\top a^{(i)}$
+        \item Compute the loss $$l = \left(o^{(i)} - \ysi\right)^2,$$
+    \end{enumerate}
+
+Given the linear activation function $f(x) = x$, we get 
+\begin{equation}
+    o^{(i)} = W^{[2]}^\top W^{[1]}^\top x^{(i)}
+\end{equation}
+
+This is another linear decision boundary. So it is not possible to perfectly classify this dataset
+
 \end{answer}

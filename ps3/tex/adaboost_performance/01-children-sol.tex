@@ -1,2 +1,19 @@
 \begin{answer}
+
+If $F(x_i) = y_i$, then $f(x_i)$ has the same sign of $y_i$, so $exp(-f(x_i) y_i)$ is in the range (0, 1), meaning when $F(x_i) = y_i$, 
+\begin{equation}
+		1_{\{F(x_i) \neq y_i\}} = 0 <  exp(-f(x_i) y_i)
+\end{equation}
+
+If $F(x_i) \ne y_i$, then $f(x_i)$ has the opposite sign of $y_i$, so $exp(-f(x_i) y_i)$ is great than 1, meaning when $F(x_i) = y_i$, 
+\begin{equation}
+		1_{\{F(x_i) \neq y_i\}} = 1 <  exp(-f(x_i) y_i)
+\end{equation}
+
+Sum over $n$ observations, we got 
+\begin{equation}
+    \varepsilon_{\text{training}}
+		:= \frac{1}{n} \sum_{i=1}^n 1_{\{F(x_i) \neq y_i\}}
+		\le \frac{1}{n} \sum_{i=1}^n \exp(-f(x_i) y_i),
+\end{equation}
 \end{answer}

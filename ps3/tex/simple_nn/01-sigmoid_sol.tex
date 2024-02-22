@@ -1,2 +1,58 @@
 \begin{answer}
+
+For simplicity, we derive the update rule for a single $(x^{(i)}, y^{(i)})$. The batch update just needs to average over all samples \\ 
+
+A recap of the neural network as the following steps 
+    \begin{enumerate}
+        \item input $x^{(i)} \in \mathbb{R}^{2 \times 1}$, multiplied by $W^{[1]}^\top$, where $W^{[1]} \in \mathbb{R}^{2 \times 3}$. Let $z^{(i)} = W^{[1]}^\top x^{(i)}$
+        \item Apply the sigmoid activation, $a = \sigma(z) \in \mathbb{R}^{3 \times 1}$
+        \item input $a^{(i)} \in \mathbb{R}^{3 \times 1}$, multiplied by $W^{[2]}^\top$, where $W^{[2]} \in \mathbb{R}^{3 \times 1}$. Let $o^{(i)} = W^{[2]}^\top a^{(i)}$
+        \item Compute the loss $$l = \left(o^{(i)} - \ysi\right)^2,$$
+    \end{enumerate}
+
+Apply the chain rule to the above process to compute $\frac{\partial }{\partial w_{1, 2}^{[1]}}l$ in vectorized form
+\begin{equation}
+    \frac{\partial l}{\partial W^\top^{[1]}} = \frac{\partial z^{(i)}}{\partial W^\top ^{[1]}} \cdot \frac{\partial l}{\partial o^{(i)}} \cdot \frac{\partial o^{(i)}}{\partial a^{(i)}} \cdot \frac{\partial a^{(i)}}{\partial z^{(i)}}
+\end{equation}
+
+Given the average squared loss, we get 
+\begin{equation}
+\frac{\partial l}{\partial o^{(i)}} = 2 \left(o^{(i)} - \ysi\right)
+\end{equation}
+
+Then the derivative of a linear weighted function wrt the input 
+\begin{equation}
+    \frac{\partial o^{(i)}}{\partial a^{(i)}} = W^{[2]}
+\end{equation}
+
+Then the derivative of sigmoid function
+\begin{equation}
+    \frac{\partial a^{(i)}}{\partial z^{(i)}} = a^{(i)} (1 - a^{(i)})
+\end{equation}
+
+Then the derivative of a linear weighted function wrt the weight itself, can be presented as 
+\begin{equation}
+    \frac{\partial z^{(i)}}{\partial W^\top ^{[1]}} (v) = v x^{(i)}^\top
+\end{equation}
+
+Replace (3), (4), (5), (6) into (2), use $\circ$ for element-wise product of vector 
+\begin{equation}
+    \frac{\partial l}{\partial W ^\top ^{[1]}} =  2 \left(o^{(i)} - \ysi\right) * W^{[2]} \circ a^{(i)} \circ (1 - a^{(i)}) * x^{(i)}^\top \in  \mathbb{R}^{3 \times 2}
+\end{equation}
+
+If SGD, then the update rule for $W^\top ^{[1]}$ is ($a^{(i)}$ is derived by $a^{(i)} = \sigma(W^\top ^{[1]} x^{(i)})$)
+\begin{equation}
+    W^{[1]} ^\top = W^{[1]} ^\top - \alpha * \left(  2 \left(o^{(i)} - \ysi\right) * W^{[2]} \circ a^{(i)} \circ (1 - a^{(i)}) * x^{(i)}^\top \right)
+\end{equation}
+
+This is the update rule for the whole $W^{[1]} ^\top$. For a simple element update, it follows the same rule and we need to take care of the transpose as such
+\begin{equation}
+    w_{1, 2}^{[1]} = w_{2,1}^\top ^{[1]}
+\end{equation}
+
+For batch update, we do sum-then-average on (38) to get the following update rule. The sum on matrix is also element-wise accumulation. 
+\begin{equation}
+    W^\top ^{[1]} = W^\top ^{[1]} - \frac{2 \alpha}{n} * \left( \sum_{i=1}^{\nexp} \left(o^{(i)} - \ysi\right) * W^{[2]} \circ a^{(i)} \circ (1 - a^{(i)}) * x^{(i)} ^ \top \right)
+\end{equation}
+where $a^{(i)}$ is derived by $a^{(i)} = \sigma(W^\top ^{[1]} x^{(i)})$
 \end{answer}

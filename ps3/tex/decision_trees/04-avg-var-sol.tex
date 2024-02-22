@@ -1,2 +1,33 @@
-\begin{answer}{
+\begin{answer}
+
+The variance of a sum of random variables is given by the following
+\begin{equation}
+    \text{Var}\left(\sum_{i=1}^{B} T_i(x)\right) = \sum_{i=1}^{B} \text{Var}(T_i(x)) + 2\sum_{i<j} \text{Cov}(T_i(x), T_j(x))
+\end{equation}
+
+where
+\begin{equation}
+    \text{Var}(T_i(x)) = \sigma^2\ \text{for i = 1, \cots, B}
+\end{equation}
+
+and 
+\begin{equation}
+    \text{Cov}(T_i(x), T_j(x)) =  Corr(X,Y) \sqrt{Var(X)}\sqrt{Var(Y)} = \rho\sigma^2
+\end{equation}
+
+Replacing (15), (16) in (14)
+\begin{equation}
+\text{Var}\left(\sum_{i=1}^{B} T_i(x)\right) = B\sigma^2 + 2\sum_{i<j} \rho\sigma^2 = B\sigma^2 + B(B-1)\rho\sigma^2
+\end{equation}
+
+Given (17), the variance of the average is given by 
+\begin{equation}
+\text{Var}\left(\frac{1}{B}\sum_{i=1}^{B}T_i(x)\right) = \frac{1}{B^2}\left[B\sigma^2 + B(B-1)\rho\sigma^2\right] = \frac{\sigma^2}{B} + \frac{(B-1)\rho\sigma^2}{B}
+\end{equation}
+
+(18) can be simplified as 
+\begin{equation}
+\text{Var}\left(\frac{1}{B}\sum_{i=1}^{B}T_i(x)\right) = \rho\sigma^2 + \frac{1-\rho}{B}\sigma^2
+\end{equation}
+
 \end{answer}

@@ -1,2 +1,12 @@
-\begin{answer}{
+\begin{answer}
+
+Given the definition of concavity
+\begin{equation}
+        \forall p_1 \neq p_2, \forall t \in (0, 1): G(t p_1 + (1 - t) p_2) > t G(p_1) + (1 - t) G(p_2)
+\end{equation}
+
+Case 1: $p_1 = p_2$, after split, the classification distribution in children is the same as the classification distribution of parent. Even if some splits do not change the Gini loss, further splits in the tree can still lead to purer nodes. So this case does not prevent a fully grown tree from achieving zero Gini loss.
+
+Case 2: $t = 0$ or $t = 1$, this means the node being split already has 0 Gini loss, all samples under this node belong to the homogeneous class. At this point parent node can be the leaf node and there is no meaning for further split. This case shows that it already achieves zero Gini loss.
+
 \end{answer}

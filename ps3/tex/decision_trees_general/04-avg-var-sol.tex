@@ -1,2 +1,20 @@
-\begin{answer}{
+\begin{answer}
+
+(i) 
+For regression and predict the salary from college degree and age, we can output the average salary that falls into this node. \\
+
+Changes to make - 1)change the output from a predicted\_class to the average of salary of all its data 2) All reference of node.predicted\_class needs to be corrected to be node.aver\_salary \\
+pseudo code as follows\\
+    \hspace{10mm} (commented out) predicted\_class = np.argmax(num\_samples\_per\_class) \\
+    \hspace{10mm} (commented out) root\_node = Node(predicted\_class=predicted\_class) \\
+    root\_node = Node(np.mean(data[index\_of\_salary]))
+
+(ii) 
+We still derive a threshold for each split, and minimize the sum of absolute difference between each data and the average of all data in the node. For example, data 1 3 2 fall in the same node, the cost is abs(1 - 2) +  abs(3 - 2) + abs(2 - 2) \\
+Changes to make - modify \_misclassification\_loss method \\ 
+pseudo code \\
+    cost = 0 \\
+    aver = mean(data) \\
+    for d in data:  cost += abs(data - aver) \\
+    return cost
 \end{answer}
