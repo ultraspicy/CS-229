@@ -22,11 +22,16 @@ def init_centroids(num_clusters, image):
     Returns
     -------
     centroids_init : nparray
-        Randomly initialized centroids
+        Randomly initialized centroids 
     """
 
     # *** START YOUR CODE ***
-    raise NotImplementedError('init_centroids function not implemented')
+
+    # replace=False ensures that each selected pixel is unique
+    indices = np.random.choice(image.shape[0] * image.shape[1], num_clusters, replace=False)
+    # sampling data points from image[x,y], randomly choose 16 pixel as the centroids
+    centroids_init = np.array([image[index // image.shape[1], index % image.shape[1]] for index in indices])
+    # print(f"cen_init.size = {centroids_init.shape}") 
     # *** END YOUR CODE ***
 
     return centroids_init
@@ -54,7 +59,21 @@ def update_centroids(centroids, image, max_iter=30, print_every=10):
     """
 
     # *** START YOUR CODE ***
-    raise NotImplementedError('update_centroids function not implemented')
+    print(f"the shape of image {image.shape}")
+    num_clusters = centroids.shape[0]
+    for i in range(max_iter):
+        # Assign each pixel to the nearest centroid
+        # np.argmin is to find the indices of the minimum value in an array
+        assignments = np.array([[np.argmin(np.linalg.norm(pixel - centroids, axis=1)) for pixel in row] for row in image])
+        
+        # Update centroids
+        for k in range(num_clusters):
+            centroids[k] = np.mean(image[assignments == k], axis=0)
+
+        if (i + 1) % print_every == 0:
+            print(f"Iteration {i + 1}: Centroids updated.")
+
+    new_centroids = centroids
     # *** END YOUR CODE ***
 
     return new_centroids
@@ -79,7 +98,10 @@ def update_image(image, centroids):
     """
 
     # *** START YOUR CODE ***
-    raise NotImplementedError('update_image function not implemented')
+    for i in range(image.shape[0]):
+        for j in range(image.shape[1]):
+            closest_centroid = np.argmin(np.linalg.norm(image[i, j] - centroids, axis=1))
+            image[i, j] = centroids[closest_centroid]
     # *** END YOUR CODE ***
 
     return image
