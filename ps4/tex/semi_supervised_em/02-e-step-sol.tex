@@ -1,2 +1,35 @@
 \begin{answer}
+
+ In E step, we estimate the latent variables $\zsi \in \{1,\ldots,k\}$ for the unlabeled data points. Each $\zsi$ stands for an assignment of each data point to a particular Gaussian distribution. For labeled data points \(\tilde{x}^{(i)}\), \( \tilde{z}^{(i)} \) is already known, so no estimation is needed in the E-step for these.
+
+Similar with the notation in lecture, we use $z^{(i)}_{j}$ stands for responsibility cluster $j$ takes for observation $i$
+
+\begin{equation}
+  z^{(i)}_{j}= \frac{\phi_j \mathcal{N}(x^{(i)} | \mu_j, \Sigma_j)}{\sum_{l=1}^k \phi_l \mathcal{N}(x^{(i)} | \mu_l, \Sigma_l)} 
+\end{equation}
+
+Where:
+
+\begin{itemize}
+    \item \(\phi_j\) is the mixture weight for the \(j\)-th component at the \(t\)-th iteration.
+    \item \(\mu_j\) and \(\Sigma_j\) are the mean and covariance of the \(j\)-th component at the \(t\)-th iteration.
+    \item \(\mathcal{N}(x^{(i)} | \mu_j, \Sigma_j)\) is the Gaussian distribution for the \(j\)-th component evaluated at \(x^{(i)}\).
+\end{itemize}
+
+% and
+% \begin{equation}
+%     N^{\text{soft}}_j = \sum_{i = 1}^n r_{ij}
+% \end{equation}
+
+
+% Using Bayes' theorem, this can be expressed as:
+
+% \[
+% \gamma(z_j^{(i)}) = \frac{\phi_j^{(t)} \mathcal{N}(x^{(i)} | \mu_j^{(t)}, \Sigma_j^{(t)})}{\sum_{l=1}^k \phi_l^{(t)} \mathcal{N}(x^{(i)} | \mu_l^{(t)}, \Sigma_l^{(t)})}
+% \]
+
+
+
+% For unlabeled data, compute \(\gamma(z_j^{(i)})\) for each data point and component using the formula above. For labeled data, use the observed labels directly in the M-step, as no responsibility calculation is needed.
+
 \end{answer}

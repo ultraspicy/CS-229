@@ -1,2 +1,35 @@
 \begin{answer}
+
+
+
+Given a unit-length vector $u$, the projection of a point $x$ onto $u$ is 
+\begin{equation}
+    f_u(x) = (x^Tu)u
+\end{equation}
+
+where $x^Tu$ gives the length of the projection of $x$ in the direction of $u$
+
+
+So the mean squared error between the projected points and the original points is:
+\begin{equation}
+    \sum_{i=1}^m \|x^{(i)}-f_u(x^{(i)})\|_2^2 = \sum_{i=1}^m \|x^{(i)}-(x^{(i)T}u)u\|_2^2
+\end{equation}
+
+Expanding the above, 
+\begin{equation}
+    \sum_{i=1}^m \|x^{(i)}-(x^{(i)T}u)u\|_2^2 = \sum_{i=1}^m (x^{(i)}-(x^{(i)T}u)u)^\top (x^{(i)}-(x^{(i)T}u)u) = \sum_{i=1}^m \left( \|x^{(i)}\|_2^2 - (x^{(i)T}u)^2 \right)
+\end{equation}
+
+Since \(\sum_{i=1}^m \|x^{(i)}\|_2^2\) is constant, minimizing the MSE is equivalent to maximizing 
+\begin{equation}
+\sum_{i=1}^m (x^{(i)T}u)^2
+\end{equation}
+
+Notice the above equation can be rewritten as:
+\begin{equation}
+\sum_{i=1}^m (x^{(i)T}u)^2 = \sum_{i=1}^m (x^{(i)T}u)^\top (x^{(i)T}u) = u^T \left(\sum_{i=1}^m x^{(i)}x^{(i)}^T \right) u
+\end{equation}
+
+The above equation represents the variance of the data projected onto the vector $u$. This shows if we choose a $u$ to maximize the variance as the first dimension for projection, then we equivalently  minimize the MSE. This fits into the definition of first principal component.
+
 \end{answer}

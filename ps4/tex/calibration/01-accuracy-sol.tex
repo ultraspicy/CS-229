@@ -1,2 +1,13 @@
 \begin{answer}
+
+From problem statement, perfect calibration refers to the condition where the predicted probability of an event occurring matches the observed frequency of the event occurring. \\
+
+Perfect accuracy means the model makes no errors in prediction. That is, every prediction matches the true label. \\
+
+So perfect calibration doesn't imply prefect accuracy. For example, in a case $p = 0.5$, even when the model is perfectly calibrated, prediction could be wrong half of the time if the probabilities are equally distributed around this threshold. \\
+
+Conversely, under problem setting of binary classification, if a model achieves perfect accuracy, it implies perfect calibration. Proof by contradiction, an inaccurate calibration will inevitably lead to some classification error.
+
+
+
 \end{answer}

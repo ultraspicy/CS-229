@@ -1,2 +1,58 @@
 \begin{answer}
+
+Expand the equation of MSE
+\begin{equation}
+\text{MSE}(h) = \E[(Y - h(X))^2] = \E = \E[(Y - T(X))^2] + \E[(T(X) - h(X))^2] + 2\E[(Y - T(X))(T(X) - h(X))]
+\end{equation}
+
+where 
+\begin{equation}
+    \text{CE}(h) = \E[(T(X) - h(X))^2]
+\end{equation}
+
+From the definition of $T(x) = \Pr [Y =1 \mid h(X) = h(x)]$, we have 
+\begin{equation}
+    T(X) = \E[Y | h(X)]
+\end{equation} 
+
+Apply the law of total variance, 
+
+\begin{equation}
+\text{Var}[Y] = \E[\text{Var}[Y | h(X)]] + \text{Var}[\E[Y | h(X)]] = \E[\text{Var}[Y | h(X)]] + \text{Var}[T(X)]
+\end{equation} 
+
+Given the definition of conditional variance 
+\begin{equation}
+    \text{Var}[Y | h(X)] = \E\left[(Y - T(X))^2 \mid h(X)\right]
+\end{equation}
+we get 
+\begin{equation}
+    \E[\text{Var}[Y | h(X)]] = \E[(Y - T(X))^2]
+\end{equation}
+so we can rewrite $\text{Var}[Y]$ as:
+
+\begin{equation}
+    \text{Var}[Y] = \E[(Y - T(X))^2] + \text{Var}[T(X)]
+\end{equation}
+
+
+For the cross-term \(2\E[(Y - T(X))(T(X) - h(X))]\), we note that \(T(X) = \E[Y | h(X)]\), so \(\E[Y - T(X) | h(X)] = 0\). This implies that the cross-term is zero:
+
+\begin{equation}
+2\E[(Y - T(X))(T(X) - h(X))] = 0
+\end{equation}
+
+Putting it all together:
+
+\begin{equation}
+\text{MSE}(h) = \E[(Y - T(X))^2] + \text{CE}(h) + 0
+\end{equation}
+
+And substituting \(\E[(Y - T(X))^2]\) with \(\text{Var}[Y] - \text{Var}[T(X)]\), we get:
+
+\begin{equation}
+\text{MSE}(h) = \text{Var}[Y] - \text{Var}[T(X)] + \E[(T(X) - h(X))^2]
+\end{equation}
+
+
 \end{answer}

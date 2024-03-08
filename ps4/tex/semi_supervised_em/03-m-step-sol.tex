@@ -1,2 +1,39 @@
 \begin{answer}
+
+Parameters to re-estimate in the M-Step
+
+\begin{enumerate}
+    \item means \(\mu^{(t+1)}\): The means of the Gaussian components.
+    \item covariances \(\Sigma^{(t+1)}\): The covariance matrices of the Gaussian components.
+    \item mixture Weights \(\phi^{(t+1)}\): The probabilities that a randomly selected data point belongs to each component.
+\end{enumerate}
+
+Derivation of the Semi-Supervised M-Step, reusing the definition of $z^{(i)}_j$ in the previous question
+
+(i) update for \(\mu^{(t+1)}\)
+
+\begin{equation}
+    \mu_j^{(t+1)} = \frac{\sum_{i=1}^{n} z^{(i)}_j x^{(i)} + \sum_{i=1}^{\tilde{n}} 1\{\tilde{z}^{(i)} = j\} \tilde{x}^{(i)}}{\sum_{i=1}^{n} z^{(i)}_j + \sum_{i=1}^{\tilde{n}} 1\{\tilde{z}^{(i)} = j\}}    
+\end{equation}
+
+
+
+(ii) update for \(\Sigma^{(t+1)}\):
+
+The update rule for the covariance of each Gaussian component is:
+
+\[
+\Sigma_j^{(t+1)} = \frac{\sum_{i=1}^{n} z^{(i)}_j (x^{(i)} - \mu_j^{(t+1)})(x^{(i)} - \mu_j^{(t+1)})^T + \sum_{i=1}^{\tilde{n}} 1\{\tilde{z}^{(i)} = j\} (\tilde{x}^{(i)} - \mu_j^{(t+1)})(\tilde{x}^{(i)} - \mu_j^{(t+1)})^T}{\sum_{i=1}^{n} z^{(i)}_j + \sum_{i=1}^{\tilde{n}} 1\{\tilde{z}^{(i)} = j\}}
+\]
+
+(iii) update for \(\phi^{(t+1)}\):
+
+The update rule for the mixture weights is:
+
+\[
+\phi_j^{(t+1)} = \frac{\sum_{i=1}^{n} z^{(i)}_j + \sum_{i=1}^{\tilde{n}} 1\{\tilde{z}^{(i)} = j\}}{n + \tilde{n}}
+\]
+
+In these formulas, \(1\{\cdot\}\) is the indicator function, which is 1 if the condition is true and 0 otherwise. 
+
 \end{answer}

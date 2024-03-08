@@ -1,2 +1,23 @@
 \begin{answer}
+
+The KL divergence from \(\hat{P}\) to \(P_\theta\) is:
+\begin{equation}
+    \KL(\hat{P} \| P_\theta) = \sum_x \hat{P}(x) \log \frac{\hat{P}(x)}{P_\theta(x)} = \sum_x \left( \frac{1}{n} \sum_{i=1}^{n} 1\{x^{(i)} = x\} \right) \log \frac{\hat{P}(x)}{P_\theta(x)}
+\end{equation}
+
+the outer sum can be replaced with the sum over the training examples:
+
+\begin{equation}
+    \KL(\hat{P} \| P_\theta) = \frac{1}{n} \sum_{i=1}^{n} \log \frac{\hat{P}(x^{(i)})}{P_\theta(x^{(i)})} = \frac{1}{n} \sum_{i=1}^{n} \log \hat{P}(x^{(i)}) - \frac{1}{n} \sum_{i=1}^{n} \log P_\theta(x^{(i)})
+\end{equation}
+
+The first term in the above equation is a constant. So minimizing $ \KL(\hat{P}\|P_\theta)$ is equivalent to maximizing 
+\begin{equation}
+    \frac{1}{n} \sum_{i=1}^{n} \log P_\theta(x^{(i)})
+\end{equation}
+
+which is equivalent to maximizing the log likelihood
+\begin{equation}
+    \sum_{i=1}^\nexp \log P_\theta(\xsi)
+\end{equation}
 \end{answer}

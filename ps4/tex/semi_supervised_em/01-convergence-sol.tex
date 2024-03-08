@@ -1,2 +1,24 @@
 \begin{answer}
+
+Given the definition of $\ell_\text{sup}(\theta)$
+
+\begin{align}
+    \ell_{\text{semi-sup}}(\theta^{(t+1)}) &= \alpha \ell_\text{sup}(\theta^{(t+1)}) + \ell_\text{unsup}(\theta^{(t+1)}) \\
+    &= \alpha \ell_\text{sup}(\theta^{(t+1)}) +  \sum_{i=1}^\nexp \log \sum_{\zsi} p(\xsi,\zsi;\theta^{(t+1)}) \\
+    &=  \alpha \ell_\text{sup}(\theta^{(t+1)}) +  \sum_{i=1}^\nexp \log \sum_{\zsi} Q^{(t)}_i(\zsi) \frac{p(\xsi,\zsi;\theta^{(t+1)})}{Q^{(t)}_i(\zsi)} 
+\end{align}
+
+By Jensen inequality, the above can be written as 
+\begin{align}
+    \ell_{\text{semi-sup}}(\theta^{(t+1)}) \ge \alpha \ell_\text{sup}(\theta^{(t+1)}) + \sum_{i=1}^\nexp \sum_{\zsi} Q^{(t)}_i(\zsi) \log \frac{ p(\xsi, \zsi;\theta^{(t+1)}) }{ Q^{(t)}_i(\zsi)}
+\end{align}
+
+By definition, $\theta^{(t+1)}$ is maximizing the above equation at given $t$, so 
+\begin{align}
+    \ell_{\text{semi-sup}}(\theta^{(t+1)}) &\ge \alpha \ell_\text{sup}(\theta^{(t+1)}) + \sum_{i=1}^\nexp \sum_{\zsi} Q^{(t)}_i(\zsi) \log \frac{ p(\xsi, \zsi;\theta^{(t+1)}) }{ Q^{(t)}_i(\zsi)}  \\
+    &\geq \alpha \ell_\text{sup}(\theta^{(t)}) + \sum_{i=1}^\nexp \sum_{\zsi} Q^{(t)}_i(\zsi) \log \frac{ p(\xsi, \zsi;\theta^{(t)}) }{ Q^{(t)}_i(\zsi)} \\
+    &= \ell_{\text{semi-sup}}(\theta^{(t)}) % Uncomment this line if you want to display it
+\end{align}
+
+
 \end{answer}

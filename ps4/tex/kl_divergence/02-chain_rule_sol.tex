@@ -1,2 +1,25 @@
 \begin{answer}
+
+For convenience, let 
+\begin{equation}
+    L = \KL(P(X,Y)\|Q(X,Y)) = \sum_x \sum_y P(x,y) \log\frac{P(x,y)}{Q(x,y)}
+\end{equation}
+and 
+\begin{equation}
+    R = \KL(P(X)\|Q(X)) + \KL(P(Y|X)\|Q(Y|X))
+\end{equation}
+
+Then, use the fact that $P(x)P(y|x) = P(x,y)$,
+\begin{align*}
+R &= \sum_x P(x) \log\frac{P(x)}{Q(x)} + \sum_x P(x) \left(\sum_y P(y|x) \log\frac{P(y|x)}{Q(y|x)}\right) \\
+&= \sum_x P(x) \log\frac{P(x)}{Q(x)} + \sum_x \sum_y P(x)P(y|x) \log\frac{P(y|x)}{Q(y|x)} \\
+&= \sum_x P(x) \log\frac{P(x)}{Q(x)} + \sum_x \sum_y P(x,y) \log\frac{P(y|x)}{Q(y|x)} \\
+&= \sum_x \sum_y P(x,y) \log\frac{P(x)}{Q(x)} + \sum_x \sum_y P(x,y) \log\frac{P(y|x)}{Q(y|x)} \\
+&= \sum_x \sum_y P(x,y) \left(\log\frac{P(x)}{Q(x)} + \log\frac{P(y|x)}{Q(y|x)}\right) \\
+&= \sum_x \sum_y P(x,y) \log\frac{P(x)P(y|x)}{Q(x)Q(y|x)} \\
+&= \sum_x \sum_y P(x,y) \log\frac{P(x,y)}{Q(x,y)} \\
+&= L
+\end{align*}
+
+
 \end{answer}

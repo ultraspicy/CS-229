@@ -1,2 +1,9 @@
 \begin{answer}
+
+We save the image with same size. If not taking any image compression algorithm into account, and just talking about the compression pixel-by-pixel, then the compression is from the reduced color. \\ 
+
+Ideally, we reduced from 24-bit color to 4-bit color, so the compression rate is 6. However, computer use byte as the addressable unit in memory so we still need a byte to store the color, let color be 0, $\cdots$ 15. Moreover, we need to store 16 centroid with 3 bytes each. So a more realistic compression rate is 
+\begin{equation}
+    r = \frac{512 * 512 * 3}{512 * 512 + 48} \approx 3
+\end{equation}
 \end{answer}

@@ -1,2 +1,24 @@
 \begin{answer}
+
+let $f(x) = -log(x)$, then $f^{\prime\prime} = \frac{1}{x^2}$ so $f(x)$ is convex. So according to Jensen's inequality
+\begin{equation}
+   E[f(X)] \geq f(E[X])
+\end{equation}
+
+Let $X = \frac{Q(x)}{P(x)}$, from the above equation we take the expectation wrt to distribution P(x),
+\begin{equation}
+    - \sum_x P(x) \log\left(\frac{Q(x)}{P(x)}\right) \ge log\left( \sum_x P(x) \frac{Q(x)}{P(x)} \right)
+\end{equation}
+
+Given $Q(x)$ is also a distribution, it sums to 1. So the above equation can be written as 
+\begin{equation}
+    \KL(P \| Q) = \sum_x P(x) \log\left(\frac{P(x)}{Q(x)}\right) = - \sum_x P(x) \log\left(\frac{Q(x)}{P(x)}\right) \ge log\left( \sum_x P(x) \frac{Q(x)}{P(x)} \right) = log(1) = 0
+\end{equation}
+
+the problem assumes $P(x)>0, \forall x$. And $\KL(P \| Q) = 0$ is equivalent to
+\begin{equation}
+    \frac{Q(x)}{P(x)} = 1, \forall x
+\end{equation}
+
+meaning $P(x)$ and $Q(x)$ are same distribution 
 \end{answer}
