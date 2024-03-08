@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import os
+from scipy.stats import multivariate_normal
 
 PLOT_COLORS = ['red', 'green', 'blue', 'orange']  # Colors for your plots
 K = 4           # Number of Gaussians in the mixture model
@@ -27,11 +28,36 @@ def main(is_semi_supervised, trial_num):
     # (1) Initialize mu and sigma by splitting the n_examples data points uniformly at random
     # into K groups, then calculating the sample mean and covariance for each group
 
+    # print(f"x.shape = {x.shape}") #(980, 2)
+    n = x.shape[0]
+    # np.random.seed(seed) is used to set the random seed for NumPy's random number generator.
+    # np.random.seed(trial_num)  # For reproducibility
+    # np.random.choice(a, size=None, replace=True, p=None) is a function from 
+    # the NumPy library that generates a random sample from a given 1-D array or integer.
+    
+    assignments = np.random.choice(K, n) 
+    # print(f"assignments.shape = {assignments.shape}") # (980,)
+    
+    mu = [np.mean(x[assignments == k, :], axis=0) for k in range(K)]
+    # The np.cov function expects each row to represent a variable (feature) 
+    # and each column to represent an observation. 
+    # However, the data points in x are arranged such that each row is an 
+    # observation and each column is a variable. 
+    # To align with np.cov's expectation, the data matrix is transposed using .T. 
+    sigma = [np.cov(x[assignments == k, :].T) for k in range(K)]
     # (2) Initialize phi to place equal probability on each Gaussian
     # phi should be a numpy array of shape (K,)
+    phi = np.full(K, 1 / K)
+    # print(f"phi.shape = {phi.shape}")  (4,)
 
     # (3) Initialize the w values to place equal probability on each Gaussian
     # w should be a numpy array of shape (m, K)
+    w = np.full((n, K), 1 / K)
+
+    # print(f"sigma.len = {len(sigma)}")
+    # print(f"phi.len = {len(phi)}")
+    # print(f"mu.len = {len(mu)}")
+
     # *** END CODE HERE ***
 
     if is_semi_supervised:
@@ -77,15 +103,35 @@ def run_em(x, w, phi, mu, sigma):
         pass  # Just a placeholder for the starter code
         # *** START CODE HERE
         # (1) E-step: Update your estimates in w
+        # print(f"it = {it}")
+        for j in range(K):
+            w[:, j] = phi[j] * multivariate_normal.pdf(x, mean=mu[j], cov=sigma[j])
+            # print(f"w.shape = {w.shape}") (980, 4)
+        print(f"w = {np.sum(w, axis=1, keepdims=True)}")
+        w /= np.sum(w, axis=1, keepdims=True)
 
         # (2) M-step: Update the model parameters phi, mu, and sigma
+        for j in range(K):
+            responsibility = w[:, j]
+            total_responsibility = np.sum(responsibility)
+            print(f"total_responsibility = {total_responsibility}")
+            mu[j] = np.sum(responsibility[:, np.newaxis] * x, axis=0) / total_responsibility
+            sigma[j] = np.dot((responsibility * (x - mu[j]).T), (x - mu[j])) / total_responsibility
+            phi[j] = total_responsibility / x.shape[0]
 
         # (3) Compute the log-likelihood of the data to check for convergence.
+        prev_ll = ll
+        print(w)
+        ll = np.sum(np.log(np.sum(w, axis=1)))
+        print(f"prev_ll = {prev_ll}, ll ={ll}")
         # By log-likelihood, we mean `ll = sum_x[log(sum_z[p(x|z) * p(z)])]`.
         # We define convergence by the first iteration where abs(ll - prev_ll) < eps.
         # Hint: For debugging, recall part (a). We showed that ll should be monotonically increasing.
+    
+        it = it + 1
+        
         # *** END CODE HERE ***
-
+    print(f"run_em, converge at it = {it}")
     return w
 
 
@@ -121,14 +167,37 @@ def run_semi_supervised_em(x, x_tilde, z_tilde, w, phi, mu, sigma):
         pass  # Just a placeholder for the starter code
         # *** START CODE HERE ***
         # (1) E-step: Update your estimates in w
-
+        for j in range(K):
+            w[:, j] = phi[j] * multivariate_normal.pdf(x, mean=mu[j], cov=sigma[j])
+            # print(f"w.shape = {w.shape}") (980, 4)
+            w /= np.sum(w, axis=1, keepdims=True)
         # (2) M-step: Update the model parameters phi, mu, and sigma
+        for j in range(K):
+            # For unlabeled data
+            responsibility_unlabeled = w[:, j]
+            total_responsibility_unlabeled = np.sum(responsibility_unlabeled)
+            
+            # For labeled data
+            responsibility_labeled = (z_tilde == j).flatten()
+            total_responsibility_labeled = np.sum(responsibility_labeled)
+            
+            # Combine labeled and unlabeled
+            total_responsibility = total_responsibility_unlabeled + alpha * total_responsibility_labeled
+            mu[j] = (np.sum(responsibility_unlabeled[:, np.newaxis] * x, axis=0) + alpha * np.sum(responsibility_labeled[:, np.newaxis] * x_tilde, axis=0)) / total_responsibility
+            sigma[j] = (np.dot((responsibility_unlabeled * (x - mu[j]).T), (x - mu[j])) + alpha * np.dot((responsibility_labeled * (x_tilde - mu[j]).T), (x_tilde - mu[j]))) / total_responsibility
+            phi[j] = total_responsibility / (x.shape[0] + alpha * x_tilde.shape[0])
+
 
         # (3) Compute the log-likelihood of the data to check for convergence.
+        prev_ll = ll
+        ll_unlabeled = np.sum(np.log(np.sum(w, axis=1)))
+        ll_labeled = np.sum(np.log(phi[z_tilde.flatten().astype(int)]) + [multivariate_normal.logpdf(x_tilde[i], mean=mu[int(z_tilde[i])], cov=sigma[int(z_tilde[i])]) for i in range(len(z_tilde))])
+        ll = ll_unlabeled + alpha * ll_labeled
         # Hint: Make sure to include alpha in your calculation of ll.
         # Hint: For debugging, recall part (a). We showed that ll should be monotonically increasing.
+        it = it + 1
         # *** END CODE HERE ***
-
+    print(f"run_semi_supervised_em, converge at it = {it}")
     return w
 
 
@@ -197,6 +266,6 @@ if __name__ == '__main__':
         # uncomment the following line.
         # You do not need to add any other lines in this code block.
 
-        # main(is_semi_supervised=True, trial_num=t)
+        main(is_semi_supervised=True, trial_num=t)
 
         # *** END CODE HERE ***
